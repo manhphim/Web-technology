@@ -1,12 +1,24 @@
 const { StatusCodes } = require('http-status-codes');
+const users = require('../data/users');
+const bcrypt = require('bcrypt');
 
 const isLoggedIn = (req, res, next) => {
     console.log('Authenticating...');
     const authData = getDataFromRequest(req);
-    console.log('header data', authData);
 
     if (authData) {
-        return next();
+        const [username, password] = authData;
+        const user = users.find((user) => {
+            return user.username === username;
+        });
+
+        if (user) {
+            const result = bcrypt.compareSync(password, user.password);
+
+            if (result) {
+                return next();
+            }
+        }
     }
 
     res.status(StatusCodes.UNAUTHORIZED).send('Something is wrong with your credentials.');
