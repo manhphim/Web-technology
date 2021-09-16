@@ -12,6 +12,7 @@
   "author": "Melissa",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "http-status-codes": "^2.1.4",
     "install": "^0.13.0",
