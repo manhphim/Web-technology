@@ -14,9 +14,21 @@ router.get('/:id', (req, res) => {
 router.post('', (req, res) => {
     res
         .status(StatusCodes.CREATED)
-        .send('User creation in progress..');
+        .json(req.body)
+
 });
 
+router.put('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('User update in progress..');
+});
+
+router.delete('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('User update in progress..');
+});
 module.exports = router;
 
 

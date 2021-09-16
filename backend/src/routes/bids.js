@@ -12,11 +12,23 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('', (req, res) => {
-    res
-        .status(StatusCodes.CREATED)
-        .send('Bids creation in progress..');
+    const bid = req.body;
+    bids.push(bid);
+    res.send("Bid created successfully")
+
 });
 
+router.put('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('Bid update in progress..');
+});
+
+router.delete('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('Bid update in progress..');
+});
 module.exports = router;
 
 

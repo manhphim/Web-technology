@@ -17,7 +17,18 @@ router.get('/:id', (req, res) => {
 router.post('', isLoggedIn, (req, res) => {
     res
         .status(StatusCodes.CREATED)
-        .send('Auction creation in progress..');
+        .send(req.body);
 });
 
+router.put('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('Auction update in progress..');
+});
+
+router.delete('', (req, res) => {
+    res
+        .status(StatusCodes.OK)
+        .send('Auction update in progress..');
+});
 module.exports = router;

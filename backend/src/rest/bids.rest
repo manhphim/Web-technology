@@ -15,7 +15,7 @@ client.test("Request executed successfully", function() {client.assert(response.
 %}
 
 ### Create new bid
-POST http://{{host}}:{{port}}/attendances
+POST http://{{host}}:{{port}}/bids
 Content-Type: application/json
 
 {

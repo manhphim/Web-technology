@@ -21,7 +21,7 @@ Content-Type: application/json
 {
   "id": 4,
   "username" : "melissa123",
-  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK", //password1
+  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
   "secret": "uuidv4()"
 }
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 {
   "id": 1,
   "username" : "minhpham123",
-  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK", //password1
+  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
   "secret": "uuidv4()"
 }
 
@@ -57,3 +57,4 @@ Content-Type: application/json
         client.assert(response.status === 200, "Response status is not 200");
     });
 
+%}
