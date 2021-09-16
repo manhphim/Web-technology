@@ -3,12 +3,24 @@ const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
 
 const bids = require("../data/bids");
+const auctions = require("../data/auctions");
 router.get('', (req, res) => {
     res.send(bids);
 });
 
 router.get('/:id', (req, res) => {
-    res.send(`Bid with id ${req.params.id} in progress...`);
+    const id = req.params.id;
+    const bid = bids.find((bid) => {
+        return bid.id == id;
+    })
+
+    if (bid) {
+        res.send(bid);
+    } else {
+        res
+            .status(StatusCodes.NOT_FOUND)
+            .send(`Bid with id ${id} not found`);
+    }
 });
 
 router.post('', (req, res) => {

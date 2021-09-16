@@ -3,12 +3,24 @@ const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
 
 const users = require('../data/users');
+const bids = require("../data/bids");
 router.get('', (req, res) => {
     res.send(users);
 });
 
 router.get('/:id', (req, res) => {
-    res.send(`User with id ${req.params.id} in progress...`);
+    const id = req.params.id;
+    const user = users.find((user) => {
+        return user.id == id;
+    })
+
+    if (user) {
+        res.send(user);
+    } else {
+        res
+            .status(StatusCodes.NOT_FOUND)
+            .send(`User with id ${id} not found`);
+    }
 });
 
 router.post('', (req, res) => {
