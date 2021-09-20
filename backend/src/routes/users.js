@@ -4,11 +4,14 @@ const { StatusCodes } = require('http-status-codes');
 
 const users = require('../data/users');
 const bids = require("../data/bids");
-router.get('', (req, res) => {
+const isLoggedIn = require("../middleware/is-logged-in");
+const isAdmin = require("../middleware/is-admin");
+
+router.get('', isLoggedIn, (req, res) => {
     res.send(users);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', isLoggedIn, (req, res) => {
     const id = req.params.id;
     const user = users.find((user) => {
         return user.id == id;
@@ -23,20 +26,20 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.post('', (req, res) => {
+router.post('', isLoggedIn, isAdmin, (req, res) => {
     res
         .status(StatusCodes.CREATED)
         .json(req.body)
 
 });
 
-router.put('', (req, res) => {
+router.put('', isLoggedIn, isAdmin, (req, res) => {
     res
         .status(StatusCodes.OK)
         .send('User update in progress..');
 });
 
-router.delete('', (req, res) => {
+router.delete('', isLoggedIn, isAdmin, (req, res) => {
     res
         .status(StatusCodes.OK)
         .send('User update in progress..');

@@ -1,37 +1,43 @@
 const { StatusCodes } = require('http-status-codes');
 const users = require('../data/users');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const isLoggedIn = (req, res, next) => {
     console.log('Authenticating...');
-    const authData = getDataFromRequest(req);
+    const token = getTokenFromRequest(req);
 
-    if (authData) {
-        const [username, password] = authData;
-        const user = users.find((user) => {
-            return user.username === username;
-        });
-
-        if (user) {
-            const result = bcrypt.compareSync(password, user.password);
-
-            if (result) {
-                return next();
-            }
+    if (token) {
+        const payload = verifyToken(token);
+        if (payload) {
+            req.user = payload;
+            return next();
         }
     }
 
     res.status(StatusCodes.UNAUTHORIZED).send('Something is wrong with your credentials.');
 }
 
-const getDataFromRequest = (req) => {
+const getTokenFromRequest = (req) => {
     const authHeader = req.headers['authorization'];
 
     if (authHeader) {
-        return authHeader.split(' ');
+        return authHeader.split(' ')[1];
     }
 
     return false;
 }
 
+const verifyToken = (token) => {
+    try {
+        const tokenPayload = jwt.decode(token);
+        console.log('User payload', tokenPayload);
+        if (tokenPayload) {
+            const user = users.find(user => user.username === tokenPayload.username);
+            return jwt.verify(token, user.secret);
+        }
+    } catch (e) {
+        return false;
+    }
+}
 module.exports = isLoggedIn;
