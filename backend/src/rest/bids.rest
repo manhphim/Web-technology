@@ -1,0 +1,55 @@
+### Get all bids
+GET http://{{host}}:{{port}}/bids
+Accept: application/json
+
+> {%
+client.test("Request executed successfully", function() {client.assert(response.status === 200, "Response status is not 200");});
+%}
+
+### Get bid with id 1
+GET http://{{host}}:{{port}}/bids/1
+Accept: application/json
+
+> {%
+client.test("Request executed successfully", function() {client.assert(response.status === 200, "Response status is not 200");});
+%}
+
+### Create new bid
+POST http://{{host}}:{{port}}/bids
+Content-Type: application/json
+
+{
+  "time" : "December 13, 2021 8:00 PM",
+  "price" : "5000 GBP"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Update bid with id 1
+PUT http://{{host}}:{{port}}/bids/1
+Content-Type: application/json
+
+{
+  "time" : "December 13, 2021 9:00 PM",
+  "price" : "6789 GBP"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Delete bid with id 1
+DELETE http://{{host}}:{{port}}/bids/1
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+

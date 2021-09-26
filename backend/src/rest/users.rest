@@ -1,0 +1,60 @@
+### Get all users
+GET http://{{host}}:{{port}}/users
+Accept: application/json
+
+> {%
+client.test("Request executed successfully", function() {client.assert(response.status === 200, "Response status is not 200");});
+%}
+
+### Get user with id 1
+GET http://{{host}}:{{port}}/users/1
+Accept: application/json
+
+> {%
+client.test("Request executed successfully", function() {client.assert(response.status === 200, "Response status is not 200");});
+%}
+
+### Create new user
+POST http://{{host}}:{{port}}/users
+Content-Type: application/json
+
+{
+  "id": 4,
+  "username" : "melissa123",
+  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
+  "secret": "uuidv4()"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Update user with id 1
+PUT http://{{host}}:{{port}}/users/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "username" : "minhpham123",
+  "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
+  "secret": "uuidv4()"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Delete user with id 1
+DELETE http://{{host}}:{{port}}/users/1
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+%}
