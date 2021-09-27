@@ -1,6 +1,7 @@
 const {v4:uuidv4} = require('uuid');
+const fs = require('fs');
 
-const users = [
+let users = [
     {
         id: 1,
         username : 'melissa',

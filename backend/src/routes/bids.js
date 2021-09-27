@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
 
-const bids = require("../data/bids");
+let bids = require("../data/bids");
 const auctions = require("../data/auctions");
 router.get('', (req, res) => {
     res.send(bids);
@@ -25,21 +25,46 @@ router.get('/:id', (req, res) => {
 
 router.post('', (req, res) => {
     const bid = req.body;
-    bids.push(bid);
-    res.send("Bid created successfully")
+    const bidWithId = {id: bids.length +1, ...bid};
+    bids.push(bidWithId);
+    res
+        .status(StatusCodes.CREATED)
+        .send('Bid created!');
 
 });
 
-router.put('', (req, res) => {
-    res
-        .status(StatusCodes.OK)
-        .send('Bid update in progress..');
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const bidUpdated = req.body;
+
+
+    if(bids[id-1] != null) {
+        for (let key in bidUpdated) {
+            bids[id-1][key] = bidUpdated[key];
+        }
+        res
+            .status(StatusCodes.OK)
+            .send('Bid updated!');
+    } else {
+        res
+            .status(StatusCodes.NOT_FOUND)
+            .send(`Bid with id ${id} not found!`);
+    }
 });
 
-router.delete('', (req, res) => {
-    res
-        .status(StatusCodes.OK)
-        .send('Bid update in progress..');
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    const bid = bids.find((bid) => bid.id == id);
+    if (bid) {
+        bids = bids.filter((bid) => bid.id != id);
+        res
+            .status(StatusCodes.OK)
+            .send('Bid deleted');
+    } else {
+        res
+            .status(StatusCodes.NOT_FOUND)
+            .send(`Bid with id ${id} not found!`);
+    }
 });
 module.exports = router;
 

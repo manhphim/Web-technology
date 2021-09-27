@@ -3,6 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const users = require('../data/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const saltRounds = 10;
 
 const router = express.Router();
 
@@ -35,5 +36,6 @@ router.post('', (req, res) => {
     }
 
 })
+
 
 module.exports = router;
