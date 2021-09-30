@@ -40,7 +40,6 @@ router.post('', isLoggedIn, isAdmin, (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
-
         users.push({
             id: users.length + 1,
             username: req.body.username,
@@ -48,7 +47,6 @@ router.post('/register', async (req, res) => {
             secret: uuid(),
             roles: ['user']
         });
-        console.log(users);
         res
             .status(StatusCodes.CREATED)
             .send('User registered!');
@@ -57,7 +55,7 @@ router.post('/register', async (req, res) => {
             .status(StatusCodes.BAD_REQUEST)
             .send("Please fill in username/password");
     }
-})
+});
 
 router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
     const { id } = req.params;

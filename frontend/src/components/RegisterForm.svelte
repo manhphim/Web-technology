@@ -10,101 +10,71 @@
     let email = '';
     let password = '';
     let password2 = '';
-    let formValidation = true;
-    
-    let form = document.getElementById('register');
+    let checkEmail = true;
+    let checkPassword = true;
+    let checkPassword2 = true;
+    let emailMessage = '';
+    let passwordMessage = '';
 
-    let handleForm = (e) => {
-        e.preventDefault();
-        checkInput();
-    }
-    // const handleSubmit = async () => {
-    //     if (checkInput && formValidation) {
-    //         const response = await submit();
-    //         if (response['status'] === 200) {
-    //             navigate('/home');
-    //         }
-    //     }  else {
-    //         alert('Something is wrong with your credentials')
-    //     }
-    // };
-    //
-    // async function submit() {
-    //     try {
-    //         const response = await fetch('http://localhost:3000/credentials', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body:JSON.stringify({username, password})
-    //         });
-    //
-    //         return await response;
-    //     } catch (e) {
-    //         console.log(e);
-    //         alert('Something went wrong!');
-    //     }
-    // }
+    let form;
 
-    function CheckPassword(inputtxt) {
-        let passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-        if(inputtxt.match(passw)) { 
-            return true;
+
+    const handleSubmit = async () => {
+        checkPassword = passwordValidation(password.trim());
+        checkPassword2 = password.trim() === password2.trim();
+        if (checkEmail && checkPassword && checkPassword2) {
+            console.log('in if in handleSubmit');
+            const response = await submit();
+            if (response['status'] === 201) {
+                navigate('/');
+            }
+        }  else {
+
         }
-        else { 
+    };
+
+
+
+    async function submit() {
+        console.log('in submit ', username, password);
+        try {
+            const response = await fetch('http://localhost:3000/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({username, password})
+            });
+
+            return await response;
+        } catch (e) {
+            console.log(e);
+            navigate("/register");
+            alert('Something went wrong!');
+        }
+    }
+
+    function passwordValidation(input) {
+        if (input.length < 6) {
+            passwordMessage = 'Password must have at least 6 characters.';
             return false;
         }
-    }
 
-
-    let checkInput = function () {
-        // trim to remove the whitespaces
-        
-        console.log(email.trim());
-        let checkSuffix = (email.trim().lastIndexOf('.com') != (email.trim().length - 4)) && (email.trim().lastIndexOf('.nl') != (email.trim().length - 3))
-        
-        console.log(checkSuffix);
-        
-
-        if (checkSuffix === true){
-           setErrorFor(emailContainer, 'Email must end with ".nl" or ".com"');
-           formValidation = false;
-        } 
-        else {
-            setSuccessFor(emailContainer);
+        if (!input.match(/[A-Z]+/)) {
+            passwordMessage = 'Password must have at least one uppercase letter.';
+            return false;
         }
-        
-        if(!CheckPassword(password.trim())) {
-            setErrorFor(passwordContainer, 'Password must have at least 6 characters with 1 digit, 1 uppercase character.');
-            formValidation = false;
-        } else {
-            setSuccessFor(passwordContainer);
+
+        if (!input.match(/[0-9]/)) {
+            passwordMessage = 'Password must have at least one digit.';
+            return false;
         }
-        
-        if(password.trim() !== password2.trim()) {
-            setErrorFor(password2Container, 'Passwords does not match');
-            formValidation = false;
 
-        } else{
-            setSuccessFor(password2Container);
-        }
+        return true;
     }
 
-    function setErrorFor(input, message) {
-        const formControl = input.parentElement;
-        const small = formControl.querySelector('small');
-        formControl.className = 'form__control error';
-        small.innerText = message;
-    }
 
-    function setSuccessFor(input) {
-        const formControl = input.parentElement;
-        formControl.className = 'form__control success';
-    }
-        
-    // function isEmail(email) {
-    //     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
-    // }
+
 
 </script>
 
@@ -118,25 +88,31 @@
 
 <body>
     <div class="register__container">
-        <form id="register" action="" on:submit|preventDefault = {handleForm}>
+        <form bind:this = {form} id="register" action="" on:submit|preventDefault = {handleSubmit}>
             <h1 style="text-align:center; margin: 3rem auto;">Register</h1>
             <div class="form__control">
                 <input bind:this = {emailContainer} type="email" placeholder="Enter email" name="email" id="email" bind:value={email} required>
-                <small>Error message</small>
+                {#if !checkEmail}
+                    <small>Email must end with ".nl" or ".com"</small>
+                {/if}
             </div>
 			<div class="form__control">
                 <input bind:this = {usernameContainer} type="text" placeholder="Enter Username" name="uname" id="username" bind:value={username} required>
-                <small>Error message</small>
+
             </div>
 
             <div class="form__control">
                 <input bind:this = {passwordContainer} type="password" placeholder="Enter Password" name="psw" id="password" bind:value={password} required>
-                <small>Error message</small>
+                {#if !checkPassword}
+                    <small>{passwordMessage}</small>
+                {/if}
             </div>
 
             <div class="form__control">
                 <input bind:this = {password2Container} type="password" placeholder="Enter Password Again" name="psw" id="password2" bind:value={password2} required>
-                <small>Error message</small>
+                {#if !checkPassword2}
+                    <small>Passwords don't match</small>
+                {/if}
             </div>
             
             <div class="submit__button">
@@ -239,25 +215,9 @@
         margin-bottom: 10px;
 	    padding-bottom: 20px;
     }
-    .form__control.success input{
-        border: 5px solid #2ecc71;
-    }
 
-    .form__control.error input{
-        border: 5px solid #e74c3c;
-    }
-
-    .form__control small {
-        color: #e74c3c;
-        position: absolute;
-        margin-left: 8px;
-        bottom: 0;
-        left: 0;
-        visibility: hidden;
-    }
-
-    .form__control .error small {
-        visibility: visible;
+    small {
+        color: #ff0000;
     }
 
     @media screen and (max-width: 768px) {
