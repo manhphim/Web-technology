@@ -14,35 +14,39 @@
     
     let form = document.getElementById('register');
 
-    const handleSubmit = async () => {
-        if (checkInput && formValidation) {
-            const response = await submit();
-            if (response['status'] === 200) {
-                navigate('/home');
-            }
-        }  else {
-            alert('Something is wrong with your credentials')
-        }
-    };
-
-    async function submit() {
-        try {
-            const response = await fetch('http://localhost:3000/credentials', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({username, password})
-            });
-
-            return await response;
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
-        }
+    let handleForm = (e) => {
+        e.preventDefault();
+        checkInput();
     }
+    // const handleSubmit = async () => {
+    //     if (checkInput && formValidation) {
+    //         const response = await submit();
+    //         if (response['status'] === 200) {
+    //             navigate('/home');
+    //         }
+    //     }  else {
+    //         alert('Something is wrong with your credentials')
+    //     }
+    // };
+    //
+    // async function submit() {
+    //     try {
+    //         const response = await fetch('http://localhost:3000/credentials', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body:JSON.stringify({username, password})
+    //         });
+    //
+    //         return await response;
+    //     } catch (e) {
+    //         console.log(e);
+    //         alert('Something went wrong!');
+    //     }
+    // }
 
-    function CheckPassword(inputtxt) { 
+    function CheckPassword(inputtxt) {
         let passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         if(inputtxt.match(passw)) { 
             return true;
@@ -114,8 +118,8 @@
 
 <body>
     <div class="register__container">
-        <form id="register" action="" on:submit|preventDefault = {handleSubmit}>
-            <h1 style="text-align:center; margin: 5rem auto;">Register</h1>
+        <form id="register" action="" on:submit|preventDefault = {handleForm}>
+            <h1 style="text-align:center; margin: 3rem auto;">Register</h1>
             <div class="form__control">
                 <input bind:this = {emailContainer} type="email" placeholder="Enter email" name="email" id="email" bind:value={email} required>
                 <small>Error message</small>
@@ -172,7 +176,7 @@
         position: absolute;
         border-radius: 50px;
         width: 623px;
-        height: 70%;
+        height: 90%;
         z-index: 10;
         top: 50%;
         left: 50%;
@@ -259,7 +263,6 @@
     @media screen and (max-width: 768px) {
         .register__container {
             width: 500px;
-            height: 70%;
         }
        
         h1 {
@@ -275,10 +278,11 @@
         }
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 480px) and (min-width: 320px) {
         .register__container {
             width: 100%;
-            height: 70%;
         }
     }
+
+
 </style>
