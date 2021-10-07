@@ -66,4 +66,10 @@
         max-width: 300px;
     }
 
+    @media screen and (max-width: 1024px) {
+        .auction-container {
+            grid-template-columns: repeat(2, 1fr) ;
+        }
+    }
+
 </style>
