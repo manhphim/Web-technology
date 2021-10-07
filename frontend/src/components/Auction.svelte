@@ -16,8 +16,8 @@
     }
 </script>
 
-<body>
-    <div class="auction-container">
+<div class="auctions-container-wrapper">
+    <div class="auctions-container">
         {#each auctions as auction}
             <div class="auction-wrapper">
                 <div class="auction-image">
@@ -27,10 +27,16 @@
             </div>
         {/each}
     </div>
-</body>
+</div>
 
 <style>
-    .auction-container {
+    .auctions-container-wrapper {
+        display: block;
+        margin: auto 50px auto 50px;
+        padding: 50px;
+    }
+
+    .auctions-container {
         display: grid;
         grid-template-rows: repeat(4, 1fr);
         grid-template-columns: repeat(4, 1fr);
@@ -65,5 +71,4 @@
         max-height: 300px;
         max-width: 300px;
     }
-
 </style>
