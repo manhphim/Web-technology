@@ -2,7 +2,7 @@
     import Auction from "./Auction.svelte";
     let logo = {
         id: 'logo',
-        path: 'images/logo2.png'
+        path: 'images/logo/logo2.png'
     }
 
 </script>
@@ -51,6 +51,7 @@
     .nav-logo {
         margin-left: 20px;
     }
+
     img {
         width: 100%;
         height: 100%;
@@ -61,10 +62,10 @@
         padding: 0;
         box-sizing: border-box;
     }
+
     .auctions {
         display: block;
         margin: auto 50px auto 50px;
         padding: 50px;
     }
-
 </style>

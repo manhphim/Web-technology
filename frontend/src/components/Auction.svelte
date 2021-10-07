@@ -57,7 +57,7 @@
     .auction-title {
         font-family: Andale Mono, monospace;
         font-size: 20px;
-        font-weight: bolder;
+        font-weight: normal;
         margin: 0 0 10px 0;
     }
 
