@@ -1,5 +1,6 @@
 <script>
     import { navigate } from 'svelte-routing';
+    import tokenStore from '../stores/token';
     let username = '';
     let password = '';
     let usernameContainer;
@@ -8,6 +9,7 @@
 
     const handleSubmit = async () => {
         const response = await submit();
+        console.log($tokenStore);
         if (response['status'] === 200) {
             alert('success')
             navigate('/home');
@@ -26,7 +28,8 @@
                 },
                 body:JSON.stringify({username, password})
             });
-
+            const data = await response.json();
+            $tokenStore = data.token;
             return await response;
         } catch (e) {
             console.log(e);

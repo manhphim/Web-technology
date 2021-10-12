@@ -3,11 +3,6 @@
     let auction;
     let title;
 
-    onMount(async() => {
-        auction = await getItem();
-    })
-    async function getItem() {
-    }
 
 </script>
 

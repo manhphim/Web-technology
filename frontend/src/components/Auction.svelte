@@ -2,6 +2,25 @@
     import {onMount} from "svelte";
 
     let auctions = [];
+    let selectedAuction;
+
+    const getOneAuction = async (auction) => {
+        try {
+            for (let item of auctions) {
+                if (item.id === auction.id) {
+                    const response = await fetch('http://localhost:3000/auctions/' + item.id);
+                    if (response) {
+                        console.log(response.json());
+                    }
+                }
+            }
+        } catch (e) {
+            console.log(e);
+            alert('Something went wrong!');
+        }
+    }
+
+
     onMount(async() => {
         auctions = await getAllAuctions();
     })
@@ -14,16 +33,18 @@
             alert('Something went wrong!');
         }
     }
+
 </script>
 
 <body>
     <div class="auction-container">
-        {#each auctions as auction}
+        {#each auctions as auction (auction.id)}
             <div class="auction-wrapper">
-                <div class="auction-image">
+                <div on:click={getOneAuction(auction)} class="auction-image" id="{auction.id}">
                     <img src="{auction['image']}" alt="{auction['item']}">
                 </div>
                 <div class="auction-title">{auction['item']}</div>
+                <div class="auction-title">Starting price: {auction['startingPrice']}</div>
             </div>
         {/each}
     </div>
@@ -60,7 +81,6 @@
         font-weight: normal;
         margin: 0 0 10px 0;
     }
-
     img {
         max-height: 300px;
         max-width: 300px;
