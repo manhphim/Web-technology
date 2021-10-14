@@ -2,7 +2,7 @@ const auctions = [
     {
         id: 1,
         item : 'Fair Rosamond',
-        image: 'images/fair-rosamund.jpg',
+        image: '/images/fair-rosamund.jpg',
         category : 'Arts',
         isClosed : 'false',
         startingTime : 'December 12, 2021 8:00 PM',
@@ -13,7 +13,7 @@ const auctions = [
     {
         id: 2,
         item : 'Chromatic Harmonica',
-        image: 'images/chromatic-harmonica.jpg',
+        image: '/images/chromatic-harmonica.jpg',
         category : 'Musical instruments',
         isClosed : 'true',
         startingTime : 'December 31, 2021 6:00 PM',
@@ -24,7 +24,7 @@ const auctions = [
     {
         id: 3,
         item : 'Pottery Vase',
-        image: 'images/pottery-vase.jpg',
+        image: '/images/pottery-vase.jpg',
         category : 'Crafts',
         isClosed : 'false',
         startingTime : 'October 8, 2021 3:00 PM',
@@ -35,7 +35,7 @@ const auctions = [
     {
         id: 4,
         item : 'Guillaume Berleur Pistol',
-        image: 'images/pistol.jpg',
+        image: '/images/pistol.jpg',
         category : 'Guns',
         isClosed : 'false',
         startingTime : 'December 31, 2021 8:00 PM',
@@ -46,7 +46,7 @@ const auctions = [
     {
         id: 5,
         item : 'Cactus Bloom',
-        image: 'images/cactus-bloom.jpg',
+        image: '/images/cactus-bloom.jpg',
         category : 'Arts',
         isClosed : 'false',
         startingTime : 'November 12, 2021 4:00 PM',
@@ -57,7 +57,7 @@ const auctions = [
     {
         id: 6,
         item : 'Musical Putti',
-        image: 'images/musical-putti.jpg',
+        image: '/images/musical-putti.jpg',
         category : 'Jewelry',
         isClosed : 'false',
         startingTime : 'November 20, 2021 6:00 PM',
@@ -68,7 +68,7 @@ const auctions = [
     {
         id: 7,
         item : '20th Century Banjo',
-        image: 'images/banjo.jpg',
+        image: '/images/banjo.jpg',
         category : 'Musical instruments',
         isClosed : 'false',
         startingTime : 'November 30, 2021 6:00 PM',
@@ -80,7 +80,7 @@ const auctions = [
     {
         id: 8,
         item : '19th Century German Violin',
-        image: 'images/german-violin.jpg',
+        image: '/images/german-violin.jpg',
         category : 'Musical instruments',
         isClosed : 'false',
         startingTime : 'October 8, 2021 2:00 PM',
