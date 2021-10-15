@@ -1,18 +1,30 @@
 <script>
     import { navigate } from 'svelte-routing';
     import tokenStore from '../stores/token';
+    import userStore from '../stores/user';
+    import { onMount } from 'svelte'
+
     let username = '';
     let password = '';
     let usernameContainer;
     let passwordContainer;
     let formValidation = true;
+    let user = {};
+
+    onMount(async () => {
+        userStore.subscribe(value => user = value);
+    })
 
     const handleSubmit = async () => {
         const response = await submit();
         console.log($tokenStore);
-        if (response['status'] === 200) {
-            alert('success')
-            navigate('/home');
+        if (response) {
+            if (response['status'] === 200 && user.roles.includes("admin")) {
+                alert('success')
+                navigate('/admin');
+            } else {
+                navigate("/home");
+            }
         } else {
             alert('Something is wrong with your credentials')
         }
@@ -28,8 +40,11 @@
                 },
                 body:JSON.stringify({username, password})
             });
-            const data = await response.json();
-            $tokenStore = data.token;
+
+            const data=await response.json();
+            $tokenStore=data.token;
+            $userStore=data.user;
+            console.log($userStore);
             return await response;
         } catch (e) {
             console.log(e);

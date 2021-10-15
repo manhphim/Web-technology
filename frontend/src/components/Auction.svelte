@@ -2,7 +2,6 @@
     import {onMount} from "svelte";
 
     let auctions = [];
-    let selectedAuction;
 
     const getOneAuction = async (auction) => {
         try {
