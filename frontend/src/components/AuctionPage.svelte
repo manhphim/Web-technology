@@ -1,9 +1,30 @@
 <script>
+    import Navbar from "./Navbar.svelte";
     import {onMount} from "svelte";
+    import router from "page";
+
+    export let params;
+
     let auction;
-    let title;
+    let id = params.id;
+    let image;
+    let item;
 
+    onMount(async () => {
+        auction = await getOneAuction();
+        console.log('auction-----', auction)
+        image = auction.image;
+        item = auction.item;
+    });
 
+    async function getOneAuction(){
+        const response = await fetch(`http://localhost:3000/auctions/${id}`);
+        if (response.ok) {
+            return await response.json();
+        } else {
+            throw new Error(await response.text());
+        }
+    }
 </script>
 
 <head>
@@ -12,17 +33,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 
     <title>Hello, world!</title>
 </head>
 
 <body>
-
+    <Navbar />
     <div class="row justify-content-around align-middle">
         <div class="col-6 align-self-start">
-            <h1 class="text-start fs-1 fw-bold">TITLE</h1>
-            <img src="images/antique-sideboard.jpg" class="img-fluid rounded" alt="product">
+            <h1 class="text-start fs-1 fw-bold">{item}</h1>
+            <img src={image} class="img-fluid rounded" alt="Auction image">
         </div>
 
         <div class="col-4 align-self-center">
