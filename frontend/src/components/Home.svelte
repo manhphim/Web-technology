@@ -1,17 +1,13 @@
 <script>
-    import Auction from "./Auction.svelte";
+    import Auctions from "./Auctions.svelte";
     import Navbar from "./Navbar.svelte"
-    let logo = {
-        id: 'logo',
-        path: 'images/logo/logo2.png'
-    }
 
 </script>
 
 <Navbar/>
 <main>
     <div class="auctions">
-        <Auction/>
+        <Auctions />
     </div>
 </main>
 
