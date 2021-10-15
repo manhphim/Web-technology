@@ -1,5 +1,7 @@
 <script>
     import { navigate } from 'svelte-routing';
+    import router from 'page';
+
     import tokenStore from '../stores/token';
     let username = '';
     let password = '';
@@ -11,13 +13,11 @@
         const response = await submit();
         console.log($tokenStore);
         if (response['status'] === 200) {
-            alert('success')
-            navigate('/home');
+            router.redirect('/home');
         } else {
             alert('Something is wrong with your credentials')
         }
     };
-
 
     async function submit() {
         try {
@@ -46,7 +46,6 @@
             return false;
         }
     }
-   
 
 </script>
 
@@ -79,7 +78,7 @@
             <div class="submit__button">
                 <button type="submit">Login</button>
             </div>
-            <p style="text-align: center; margin-top: 2rem"class="signup__redirect">Don’t have an account? Sign up <a on:click = { navigate('/') } class="register__redirect-link" href="/register">here</a></p>
+            <p style="text-align: center; margin-top: 2rem"class="signup__redirect">Don’t have an account? Sign up <a class="register__redirect-link" href="/register">here</a></p>
         </form>
         
     </div>
@@ -87,9 +86,6 @@
     <div class="background__image">
         <img src="https://images.pexels.com/photos/2079670/pexels-photo-2079670.jpeg?cs=srgb&dl=pexels-emre-can-acer-2079670.jpg&fm=jpg" alt="">
     </div>
-    
-
-    
 </body>
 
 <style>
@@ -111,7 +107,6 @@
     .login__container {
         display: block;
         position: absolute;
-        border-radius: 50px;
         width: 623px;
         height: 70%;
         z-index: 10;
