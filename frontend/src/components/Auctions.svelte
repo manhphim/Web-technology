@@ -18,19 +18,17 @@
     }
 </script>
 
-<body>
-    <div class="auctions-container">
-        {#each auctions as auction (auction.id)}
-            <div class="auction-wrapper">
-                <div class="auction-image" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
-                    <img src="{auction['image']}" alt="{auction['item']}">
-                </div>
-                <div class="auction-item">{auction['item']}</div>
-                <div class="auction-price">Starting price: {auction['startingPrice']}</div>
+<div class="auctions-container">
+    {#each auctions as auction (auction.id)}
+        <div class="auction-wrapper">
+            <div class="auction-image" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
+                <img src="{auction['image']}" alt="{auction['item']}">
             </div>
-        {/each}
-    </div>
-</body>
+            <div class="auction-item">{auction['item']}</div>
+            <div class="auction-price">Starting price: {auction['startingPrice']}</div>
+        </div>
+    {/each}
+</div>
 
 <style>
     .auctions-container {
@@ -64,6 +62,7 @@
         font-weight: normal;
         margin: 0 0 10px 0;
     }
+
     img {
         max-height: 300px;
         max-width: 300px;
@@ -74,5 +73,4 @@
             grid-template-columns: repeat(2, 1fr) ;
         }
     }
-
 </style>

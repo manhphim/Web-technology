@@ -46,7 +46,6 @@
             return false;
         }
     }
-
 </script>
 
 <head>
@@ -132,8 +131,6 @@
         transform: translateX(-50%);
         width: 80%;
     }
-    
-
 
     label {
         display: inline-block;

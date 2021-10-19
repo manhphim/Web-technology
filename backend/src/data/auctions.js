@@ -27,7 +27,7 @@ const auctions = [
         image: 'http://localhost:3000/images/pottery-vase.jpg',
         category : 'Crafts',
         isClosed : 'false',
-        startingTime : 'October 8, 2021 3:00 PM',
+        startingTime : 'December 14, 2021 3:00 PM',
         duration : '',
         details : 'Pottery vase by George Cartlidge.',
         startingPrice : '595 GBP'
@@ -83,7 +83,7 @@ const auctions = [
         image: 'http://localhost:3000/images/german-violin.jpg',
         category : 'Musical instruments',
         isClosed : 'false',
-        startingTime : 'October 8, 2021 2:00 PM',
+        startingTime : 'December 25, 2021 2:00 PM',
         duration : '',
         details : '19thC German violin, of stained maple construction with carved lion\'s head scroll, the tailpiece with inlaid floral decoration.',
         startingPrice : '500 GBP'

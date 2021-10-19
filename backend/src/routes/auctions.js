@@ -8,7 +8,7 @@ const isAdmin = require('../middleware/is-admin');
 const users = require("../data/users");
 const {uuid} = require("uuidv4");
 
-router.get('', isLoggedIn, (req, res) => {
+router.get('', (req, res) => {
     const filters = req.query;
 
     if (Object.keys(filters).length === 0) {
@@ -25,7 +25,7 @@ router.get('', isLoggedIn, (req, res) => {
     }
 });
 
-router.get('/:id', isLoggedIn, (req, res) => {
+router.get('/:id', (req, res) => {
     const id = req.params.id;
     const auction = auctions.find((auction) => {
         return auction.id == id;

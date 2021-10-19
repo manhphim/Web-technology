@@ -1,10 +1,6 @@
 <script>
-    import { Router } from "svelte-routing";
     import { navigate } from 'svelte-routing'
     import tokenStore from "../stores/token";
-
-
-    $: console.log($tokenStore);
 
     function handleLogOut() {
         $tokenStore = "";
@@ -21,7 +17,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img class="img-fluid" src="images/logo.png" alt="logo" height="100" width="300">
+            <img class="img-fluid" src="/images/logo.png" alt="logo" height="100" width="300">
         </a>
         <form class="d-flex mb-2" style="width: 30%">
             <input class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -51,7 +47,6 @@
         </div>
     </div>
 </nav>
-
 
 <style>
     .navbar-container {
