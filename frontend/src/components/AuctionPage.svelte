@@ -71,6 +71,22 @@
         }
     }
 
+    let bids = [startPrice];
+    let isValid = true;
+    function addBid() {
+        isValid = validateBid();
+        console.log('current bid', currentBid);
+        console.log('is valid ', isValid);
+        if (isValid) {
+            bids.push(currentBid);
+            bids = bids;
+        }
+    }
+
+    function validateBid() {
+        console.log('last bid ', bids.at(-1));
+        return currentBid > bids.at(-1);
+    }
 </script>
 
 <Navbar />
@@ -98,7 +114,7 @@
                 <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: ${currentBid}`}</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: $${currentBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
@@ -110,7 +126,10 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
                             <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                            <button on:click={() => currentBid = value} type="button" class="btn">Place bid</button>
+                            <button on:click={() => {currentBid = value; addBid()}} type="button" class="btn">Place bid</button>
+                            {#if !isValid}
+                                <small>Bid must be higher than the last price!</small>
+                            {/if}
                         </div>
                     </div>
 
@@ -125,7 +144,9 @@
                 {/if}
             </form>
             <div class="text-center align-middle px-5 py-3 border">
-                <span class="fs-4 fw-medium">No bids placed.</span>
+                {#if bids.length === 1} <!-- the first "bid" is the start price -->
+                    <span class="fs-4 fw-medium">No bids placed.</span>
+                {/if}
             </div>
         </div>
     </div>
