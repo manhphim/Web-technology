@@ -1,9 +1,21 @@
 <script>
     import Navbar from "./Navbar.svelte";
+    import {onMount} from "svelte";
 
     export let params;
 
-    let auction;
+    let auction = {};
+    let isClosed = true;
+    let startTime;
+    let endTime;
+    onMount(async () => {
+        auction = await getOneAuction();
+        isClosed = auction.isClosed;
+        startTime = new Date(auction.startTime).getTime();
+        endTime = new Date(auction.endTime).getTime();
+    })
+
+
     async function getOneAuction(){
         let id = params.id;
         const response = await fetch(`http://localhost:3000/auctions/${id}`);
@@ -14,6 +26,23 @@
             throw new Error(await response.text());
         }
     }
+
+    let days;
+    let hours;
+    let minutes;
+    let seconds;
+    const x = setInterval(() => {
+        let duration = endTime - startTime;
+        days = Math.floor(duration / (1000 * 60 * 60 * 24));
+        hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+        seconds = Math.floor((duration % (1000 * 60)) / 1000);
+
+        if (duration < 0) {
+            clearInterval(x);
+            isClosed = true;
+        }
+    }, 1000);
 </script>
 
 <Navbar />
@@ -37,7 +66,7 @@
     <div class="right_column">
         <div class="form_container">
             <div class="text-center time__container border px-5 py-3">
-                <h2 class="fs-3 fw-bold">Closes in: 0 day 02:00:00</h2>
+                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
                 <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
@@ -109,11 +138,14 @@
     h1 {
         font-size: 35px;
         font-weight: bolder;
+    }
 
+    h2 {
+        font-size: 25px !important;
     }
 
     .auction_image {
-        height: 90%;
+        height: 80%;
         width: 80%;
         display: flex;
         align-items: center;
