@@ -7,12 +7,18 @@
     let auction = {};
     let auctionId = params.id;
     let isClosed = true;
+    let startPrice = '';
+    let currentBid = '';
+    let value;
+    $: value = currentBid;
     let days = '';
     let hours = '';
     let minutes = '';
     let seconds = '';
     onMount(async () => {
         auction = await getOneAuction();
+        startPrice = auction.startPrice;
+        currentBid = startPrice;
 
         let startTime = new Date(auction.startTime).getTime();
         let endTime = new Date(auction.endTime).getTime();
@@ -64,6 +70,7 @@
             throw new Error(await response.text());
         }
     }
+
 </script>
 
 <Navbar />
@@ -91,7 +98,7 @@
                 <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">Current bid: $1000</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: ${currentBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
@@ -99,8 +106,8 @@
                     <label for="bid-directly" class="form-label">Bid directly</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
-                        <input id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                        <button type="button" class="btn">Place bid</button>
+                        <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
+                        <button on:click={() => currentBid = value} type="button" class="btn">Place bid</button>
                     </div>
                 </div>
 
@@ -161,7 +168,7 @@
         font-weight: bolder;
     }
 
-    h2 {
+    h2, h3 {
         font-size: 25px !important;
     }
 
