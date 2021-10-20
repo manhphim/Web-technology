@@ -102,23 +102,27 @@
             </div>
 
             <form class="border px-5 py-3">
-                <div class="mb-3">
-                    <label for="bid-directly" class="form-label">Bid directly</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">$</span>
-                        <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                        <button on:click={() => currentBid = value} type="button" class="btn">Place bid</button>
+                {#if isClosed}
+                    <h3>Come back later!</h3>
+                {:else}
+                    <div class="mb-3">
+                        <label for="bid-directly" class="form-label">Bid directly</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
+                            <button on:click={() => currentBid = value} type="button" class="btn">Place bid</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="bid-automatically" class="form-label">Bid automatically</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">$</span>
-                        <input id="bid-automatically" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                        <button type="button" class="btn">Bid automatically</button>
+                    <div class="mb-3">
+                        <label for="bid-automatically" class="form-label">Bid automatically</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input id="bid-automatically" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
+                            <button type="button" class="btn">Bid automatically</button>
+                        </div>
                     </div>
-                </div>
+                {/if}
             </form>
             <div class="text-center align-middle px-5 py-3 border">
                 <span class="fs-4 fw-medium">No bids placed.</span>
