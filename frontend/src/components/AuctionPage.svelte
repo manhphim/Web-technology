@@ -1,24 +1,13 @@
 <script>
     import Navbar from "./Navbar.svelte";
-    import {onMount} from "svelte";
-    import router from "page";
 
     export let params;
 
     let auction;
-    let id = params.id;
-    let image;
-    let item;
-
-    onMount(async () => {
-        auction = await getOneAuction();
-        console.log('auction-----', auction)
-        image = auction.image;
-        item = auction.item;
-    });
-
     async function getOneAuction(){
+        let id = params.id;
         const response = await fetch(`http://localhost:3000/auctions/${id}`);
+
         if (response.ok) {
             return await response.json();
         } else {
@@ -30,12 +19,19 @@
 <Navbar />
 <div class="page_container">
     <div class="left_column">
-        <div class="item_name">
-            <h1>{item}</h1>
-        </div>
-        <div class="auction_image">
-            <img src={image} alt="Auction image">
-        </div>
+        {#await getOneAuction()}
+            <h1>Item loading...</h1>
+        {:then auction}
+            <div class="item_name">
+                <h1>{auction.item}</h1>
+            </div>
+            <div class="auction_image">
+                <img src={auction.image} alt="Auction image">
+            </div>
+        {:catch error}
+            <h1>Something went wrong!</h1>
+            <p>{error.message}</p>
+        {/await}
     </div>
 
     <div class="right_column">
