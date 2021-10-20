@@ -5,20 +5,42 @@
     export let params;
 
     let auction = {};
+    let auctionId = params.id;
     let isClosed = true;
-    let startTime;
-    let endTime;
+    let days = '';
+    let hours = '';
+    let minutes = '';
+    let seconds = '';
     onMount(async () => {
         auction = await getOneAuction();
-        isClosed = auction.isClosed;
-        startTime = new Date(auction.startTime).getTime();
-        endTime = new Date(auction.endTime).getTime();
+
+        let startTime = new Date(auction.startTime).getTime();
+        let endTime = new Date(auction.endTime).getTime();
+        let now = new Date().getTime();
+        if (now > startTime && now < endTime) {
+            isClosed = false;
+            const x = setInterval(() => {
+                now = new Date().getTime();
+                let timeLeft = endTime - now;
+                days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                if (timeLeft < 0) {
+                    clearInterval(x);
+                    isClosed = true;
+                }
+            }, 1000);
+        }
+
+        auction.status = isClosed ? 'Closed' : 'Opened';
+        // TODO: If the auction status changes, do we update the data??
+        // auction = await updateAuction();
     })
 
-
     async function getOneAuction(){
-        let id = params.id;
-        const response = await fetch(`http://localhost:3000/auctions/${id}`);
+        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
 
         if (response.ok) {
             return await response.json();
@@ -27,22 +49,21 @@
         }
     }
 
-    let days;
-    let hours;
-    let minutes;
-    let seconds;
-    const x = setInterval(() => {
-        let duration = endTime - startTime;
-        days = Math.floor(duration / (1000 * 60 * 60 * 24));
-        hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-        seconds = Math.floor((duration % (1000 * 60)) / 1000);
+    async function updateAuction() {
+        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({auction})
+        });
 
-        if (duration < 0) {
-            clearInterval(x);
-            isClosed = true;
+        if (response.ok) {
+            return await response.json();
+        } else {
+            throw new Error(await response.text());
         }
-    }, 1000);
+    }
 </script>
 
 <Navbar />
@@ -159,6 +180,7 @@
 
     .time__container {
         background: #D39B2C;
+        padding: 15px !important;
     }
 
     .form_container {
