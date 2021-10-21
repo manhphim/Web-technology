@@ -1,15 +1,16 @@
 <script>
     import Auctions from "./Auctions.svelte";
+    import Footer from "./Footer.svelte"
     import Navbar from "./Navbar.svelte"
 
 </script>
 
 <Navbar/>
-<main>
-    <div class="auctions">
-        <Auctions />
-    </div>
-</main>
+<div class="auctions">
+    <Auctions />
+</div>
+<Footer/>
+
 
 <style>
     main {

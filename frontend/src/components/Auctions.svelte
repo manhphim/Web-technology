@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import router from 'page';
 
+
     let auctions = [];
     onMount(async() => {
         auctions = await getAllAuctions();
@@ -18,14 +19,15 @@
     }
 </script>
 
+
 <div class="auctions-container">
     {#each auctions as auction (auction.id)}
         <div class="auction-wrapper">
-            <div class="auction-image" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
+            <div class="auction-image bg-image hover-zoom p-3 mb-5 rounded" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
                 <img src="{auction['image']}" alt="{auction['item']}">
             </div>
-            <div class="auction-item">{auction['item']}</div>
-            <div class="auction-price">Starting price: {auction['startingPrice']}</div>
+            <div class="auction-item"><a href="/auctions/{auction.id}">{auction['item']}</a></div>
+            <div class="auction-price">Starting price: {auction['startPrice']}</div>
         </div>
     {/each}
 </div>
@@ -68,9 +70,17 @@
         max-width: 300px;
     }
 
+    a, a:hover {
+        color: #000;
+    }
+
+
+
     @media screen and (max-width: 1024px) {
         .auctions-container {
             grid-template-columns: repeat(2, 1fr) ;
         }
     }
+
+
 </style>

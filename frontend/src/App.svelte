@@ -19,4 +19,15 @@
     router.start();
 </script>
 
+<svelte:head>
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
+    ></script>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</svelte:head>
+
 <svelte:component this="{page}" {params} />

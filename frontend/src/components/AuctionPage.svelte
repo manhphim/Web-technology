@@ -1,5 +1,6 @@
 <script>
     import Navbar from "./Navbar.svelte";
+    import Footer from './Footer.svelte'
     import {onMount} from "svelte";
 
     export let params;
@@ -114,7 +115,7 @@
                 <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: $${currentBid}`}</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: ${currentBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
@@ -125,20 +126,11 @@
                         <label for="bid-directly" class="form-label">Bid directly</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
-                            <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
+                            <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             <button on:click={() => {currentBid = value; addBid()}} type="button" class="btn">Place bid</button>
                             {#if !isValid}
                                 <small>Bid must be higher than the last price!</small>
                             {/if}
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="bid-automatically" class="form-label">Bid automatically</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">$</span>
-                            <input id="bid-automatically" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                            <button type="button" class="btn">Bid automatically</button>
                         </div>
                     </div>
                 {/if}
@@ -151,7 +143,7 @@
         </div>
     </div>
 </div>
-
+<Footer/>
 <style>
     * {
         font-family: Andale Mono, monospace;

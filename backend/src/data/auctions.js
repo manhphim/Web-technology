@@ -8,7 +8,7 @@ const auctions = [
         startTime : 'October 12, 2021 8:00 PM',
         endTime : 'December 15, 2021 8:00 PM',
         details : 'Painting by Kate Muriel Mason',
-        startPrice : '30000'
+        startPrice : '30000$'
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const auctions = [
         startTime : 'October 15, 2021 6:00 PM',
         endTime : 'January 10, 2022 6:00 PM',
         details : 'Huang Professional 1248, Chromatic Harmonica.',
-        startPrice : '1695'
+        startPrice : '1695$'
     },
     {
         id: 3,
@@ -30,7 +30,7 @@ const auctions = [
         startTime : 'October 14, 2021 3:00 PM',
         endTime : 'December 20, 2021 3:00 PM',
         details : 'Pottery vase by George Cartlidge.',
-        startPrice : '595'
+        startPrice : '595$'
     },
     {
         id: 4,
@@ -41,7 +41,7 @@ const auctions = [
         startTime : 'December 25, 2021 8:00 PM',
         endTime : 'December 31, 2021 8:00 PM',
         details : 'Double barrel and trigger side by side flintlock pistol by the Belgian gunsmith Guillaume Berleur.',
-        startPrice : '125'
+        startPrice : '125$'
     },
     {
         id: 5,
@@ -52,7 +52,7 @@ const auctions = [
         startTime : 'November 12, 2021 4:00 PM',
         endTime : 'November 17, 2021 4:00 PM',
         details : 'Painting by Edmund Paul',
-        startPrice : '6100'
+        startPrice : '6100$'
     },
     {
         id: 6,
@@ -63,7 +63,7 @@ const auctions = [
         startTime : 'November 20, 2021 6:00 PM',
         endTime : 'November 15, 2021 6:00 PM',
         details : 'Musical Putti and Shell Silver Plated Salt',
-        startPrice : '4000'
+        startPrice : '4000$'
     },
     {
         id: 7,
@@ -74,7 +74,7 @@ const auctions = [
         startTime : 'November 17, 2021 6:00 PM',
         endTime : 'November 30, 2021 6:00 PM',
         details : 'Early to mid 20thC Banjo.',
-        startPrice : '2000'
+        startPrice : '2000$'
     },
 
     {
@@ -86,7 +86,7 @@ const auctions = [
         startTime : 'December 25, 2021 2:00 PM',
         endTime : 'December 30, 2021 2:00 PM',
         details : '19thC German violin, of stained maple construction with carved lion\'s head scroll, the tailpiece with inlaid floral decoration.',
-        startPrice : '500'
+        startPrice : '500$'
     }
 ]
 
