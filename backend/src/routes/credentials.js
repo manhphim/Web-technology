@@ -27,7 +27,7 @@ router.post('', (req, res) => {
     if (username && password) {
         const token = login(username, password);
         if (token) {
-            res.send({ token : token });
+            res.send({ token : token, user: jwt.decode(token) });
         } else {
             res.status(StatusCodes.UNAUTHORIZED).send('Username and/or password incorrect!');
         }

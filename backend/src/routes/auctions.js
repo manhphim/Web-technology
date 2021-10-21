@@ -8,7 +8,7 @@ const isAdmin = require('../middleware/is-admin');
 const users = require("../data/users");
 const {uuid} = require("uuidv4");
 
-router.get('', isLoggedIn, (req, res) => {
+router.get('', (req, res) => {
     const filters = req.query;
 
     if (Object.keys(filters).length === 0) {
@@ -25,7 +25,7 @@ router.get('', isLoggedIn, (req, res) => {
     }
 });
 
-router.get('/:id', isLoggedIn, (req, res) => {
+router.get('/:id', (req, res) => {
     const id = req.params.id;
     const auction = auctions.find((auction) => {
         return auction.id == id;
@@ -46,7 +46,7 @@ router.post('', isLoggedIn, isAdmin, (req, res) => {
     auctions.push(auctionWithId);
     res
         .status(StatusCodes.CREATED)
-        .send('Auction created!');
+        .send(auction);
 });
 
 router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
@@ -60,7 +60,7 @@ router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
         }
         res
             .status(StatusCodes.OK)
-            .send('Auction updated!');
+            .send(auctionUpdated);
     } else {
         res
             .status(StatusCodes.NOT_FOUND)
@@ -76,7 +76,7 @@ router.delete('/:id', isLoggedIn, isAdmin, (req, res) => {
         auctions = auctions.filter((auction) => auction.id != id);
         res
             .status(StatusCodes.OK)
-            .send('Auction deleted!');
+            .send(`auction delete: ${auction}`);
     } else {
         res
             .status(StatusCodes.NOT_FOUND)
