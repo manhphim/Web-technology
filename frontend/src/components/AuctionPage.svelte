@@ -2,6 +2,7 @@
     import Navbar from "./Navbar.svelte";
     import Footer from './Footer.svelte'
     import {onMount} from "svelte";
+    import tokenStore from "../stores/token";
 
     export let params;
 
@@ -49,11 +50,7 @@
     async function getOneAuction(){
         const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
 
-        if (response.ok) {
-            return await response.json();
-        } else {
-            throw new Error(await response.text());
-        }
+        return handleErrors(response).json();
     }
 
     async function updateAuction() {
@@ -65,28 +62,48 @@
             body: JSON.stringify({auction})
         });
 
-        if (response.ok) {
-            return await response.json();
-        } else {
-            throw new Error(await response.text());
-        }
+        return handleErrors(response).json();
     }
 
     let bids = [startPrice];
     let isValid = true;
     function addBid() {
         isValid = validateBid();
-        console.log('current bid', currentBid);
-        console.log('is valid ', isValid);
+        console.log(bids);
         if (isValid) {
             bids.push(currentBid);
             bids = bids;
+            postBid();
         }
     }
 
+    async function postBid() {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date + ' ' + time;
+
+        const response = await fetch('http://localhost:3000/bids', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({dateTime, currentBid})
+        });
+
+        return handleErrors(response);
+    }
+
     function validateBid() {
-        console.log('last bid ', bids.at(-1));
         return currentBid > bids.at(-1);
+    }
+
+    function handleErrors(response) {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return response;
     }
 </script>
 
