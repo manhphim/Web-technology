@@ -38,7 +38,7 @@
 <nav class="navbar hidden-xs">
     <div class="container-fluid" style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
         <div class="navbar-container container-fluid" style="width: 80%">
-            <a class="left-links" href="">Auction</a>
+            <a class="left-links" href="" on:click={() => { $categoryStore = ""}}>Auctions</a>
             <a class="left-links" href="">Artist</a>
             <span class="divider"></span>
             <a class="right-links" href="" on:click={() => { $categoryStore = "Musical instruments"}}>Musical instruments</a>

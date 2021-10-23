@@ -6,30 +6,26 @@
 
     let auctions = [];
     onMount(async() => {
-        auctions = await getAllAuctions();
+        $categoryStore = "";
+        await getAuctions();
     });
 
-    async function getAllAuctions() {
-        try {
-            const response = await fetch('http://localhost:3000/auctions');
-            return await response.json();
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
-        }
-    }
-
-    $: $categoryStore, getAuctionsByCategory();
-    async function getAuctionsByCategory() {
+    $: $categoryStore, getAuctions();
+    async function getAuctions() {
         let category;
         categoryStore.subscribe(value => category = value);
-        try {
-            const response = await fetch(`http://localhost:3000/auctions?category=${category}`);
-            auctions = await response.json();
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
+
+        let response;
+        if (category !== "") {
+            response = await fetch(`http://localhost:3000/auctions?category=${category}`);
+        } else {
+            response = await fetch('http://localhost:3000/auctions');
         }
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        auctions = await response.json();
     }
 </script>
 
