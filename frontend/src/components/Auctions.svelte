@@ -1,6 +1,8 @@
 <script>
     import {onMount} from "svelte";
     import router from 'page';
+    import userStore from "../stores/user";
+    import categoryStore from "../stores/category";
 
     let auctions = [];
     onMount(async() => {
@@ -11,6 +13,19 @@
         try {
             const response = await fetch('http://localhost:3000/auctions');
             return await response.json();
+        } catch (e) {
+            console.log(e);
+            alert('Something went wrong!');
+        }
+    }
+
+    $: $categoryStore, getAuctionsByCategory();
+    async function getAuctionsByCategory() {
+        let category;
+        categoryStore.subscribe(value => category = value);
+        try {
+            const response = await fetch(`http://localhost:3000/auctions?category=${category}`);
+            auctions = await response.json();
         } catch (e) {
             console.log(e);
             alert('Something went wrong!');

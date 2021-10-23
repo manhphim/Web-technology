@@ -1,6 +1,7 @@
 <script>
     import router from 'page';
     import tokenStore from "../stores/token";
+    import categoryStore from "../stores/category";
 
     function handleLogOut() {
         $tokenStore = "";
@@ -40,10 +41,11 @@
             <a class="left-links" href="">Auction</a>
             <a class="left-links" href="">Artist</a>
             <span class="divider"></span>
-            <a class="right-links" href="">Musical instruments</a>
-            <a class="right-links" href="">Crafts</a>
-            <a class="right-links" href="">Guns</a>
-            <a class="right-links" href="">Arts</a>
+            <a class="right-links" href="" on:click={() => { $categoryStore = "Musical instruments"}}>Musical instruments</a>
+            <a class="right-links" href="" on:click={() => { $categoryStore = "Crafts"}}>Crafts</a>
+            <a class="right-links" href="" on:click={() => {$categoryStore = "Guns"}}>Guns</a>
+            <a class="right-links" href="" on:click={() => {$categoryStore = "Arts"}}>Arts</a>
+            <a class="right-links" href="" on:click={() => {$categoryStore = "Jewelry"}}>Jewelry</a>
         </div>
     </div>
 </nav>
