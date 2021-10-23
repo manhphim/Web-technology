@@ -38,7 +38,7 @@ const auctions = [
         image: 'http://localhost:3000/images/pistol.jpg',
         category : 'Guns',
         status : 'Open',
-        startTime : 'October 25, 2021 8:00 PM',
+        startTime : 'October 20, 2021 8:00 PM',
         endTime : 'November 31, 2021 8:00 PM',
         details : 'Double barrel and trigger side by side flintlock pistol by the Belgian gunsmith Guillaume Berleur.',
         startPrice : '125'
