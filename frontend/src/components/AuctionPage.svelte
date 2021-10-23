@@ -3,27 +3,27 @@
     import Footer from './Footer.svelte'
     import {onMount} from "svelte";
     import tokenStore from "../stores/token";
+    import AuctionBids from "./AuctionBids.svelte";
 
     export let params;
+    let username = 'melissa';
 
     let auction = {};
     let auctionId = params.id;
     let isClosed = true;
     let bids = [];
     let startPrice = '';
-    let currentBid = '';
-    let value;
-    $: value = currentBid;
+    let lastBid = '';
+    let currentBid;
+    $: currentBid = lastBid;
     let days = '';
     let hours = '';
     let minutes = '';
     let seconds = '';
     onMount(async () => {
         auction = await getOneAuction();
-        startPrice = auction.startPrice;
-        currentBid = startPrice;
-        bids.push(currentBid);
-        bids = bids;
+        bids = await getBidsByAuctionId();
+        lastBid = bids.at(-1).price;
 
         let startTime = new Date(auction.startTime).getTime();
         let endTime = new Date(auction.endTime).getTime();
@@ -69,35 +69,37 @@
     }
 
     let isValid = true;
+    let time;
     function addBid() {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        time  = date + ' ' + timestamp;
+
         isValid = validateBid();
         if (isValid) {
-            currentBid = value;
-            bids.push(currentBid);
+            lastBid = currentBid;
+            let price = lastBid;
+            bids.push({username, time, price});
             bids = bids;
             postBid();
         }
     }
 
     async function postBid() {
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date + ' ' + time;
-
         const response = await fetch('http://localhost:3000/bids', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify({dateTime, currentBid})
+            body:JSON.stringify({username, auctionId, time, lastBid})
         });
 
         return handleErrors(response);
     }
 
     function validateBid() {
-        return value > bids.at(-1);
+        return currentBid > lastBid;
     }
 
     function handleErrors(response) {
@@ -106,6 +108,15 @@
         }
 
         return response;
+    }
+
+    async function getBidsByAuctionId() {
+        const response = await fetch(`http://localhost:3000/bids?auctionId=${auctionId}`);
+
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
     }
 </script>
 
@@ -133,7 +144,7 @@
                 <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: $${startPrice}` : `Current bid: $${currentBid}`}</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: $${startPrice}` : `Current bid: $${lastBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
@@ -144,7 +155,7 @@
                         <label for="bid-directly" class="form-label">Bid directly</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text"></span>
-                            <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <input value={currentBid} on:input={e => currentBid = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             <button on:click={() => {addBid()}} type="button" class="btn">Place bid</button>
                             {#if !isValid}
                                 <small>Bid must be higher than the last price!</small>
@@ -158,6 +169,9 @@
                     <span class="fs-4 fw-medium">No bids placed.</span>
                 {/if}
             </div>
+        </div>
+        <div class="bids-container">
+            <AuctionBids bind:bids = {bids} />
         </div>
     </div>
 </div>
@@ -189,6 +203,7 @@
 
     .right_column {
         justify-content: center;
+        padding: 50px;
     }
 
     .item_name {
@@ -226,8 +241,8 @@
     }
 
     .form_container {
-        width: 500px;
-        height: 520px;
+        width: 70%;
+        height: 70%;
     }
 
     .fw-medium {
@@ -237,5 +252,10 @@
     button {
         background: #a67c00;
         color: white;
+    }
+
+    .bids-container {
+        width: 100%;
+        height: 30%;
     }
 </style>
