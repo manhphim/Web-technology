@@ -17,7 +17,7 @@ router.get('', (req, res) => {
         const filteredAuctions = auctions.filter(auction => {
             let isValid = true;
             for (let key in filters) {
-                isValid = isValid && auction[key] === filters[key];
+                isValid = isValid && auction[key] == filters[key];
             }
             return isValid;
         });

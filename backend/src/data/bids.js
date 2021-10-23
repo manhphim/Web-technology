@@ -24,8 +24,8 @@ const bids = [
         id: 4,
         username: 'minh',
         auctionId: 1,
-        time : 'September 31, 2021 12:00 PM',
-        price : '6574'
+        time : 'October 12, 2021 10:00 PM',
+        price : '30500'
     },
     {
         id: 5,

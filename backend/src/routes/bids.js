@@ -3,9 +3,21 @@ const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
 
 let bids = require("../data/bids");
-const auctions = require("../data/auctions");
 router.get('', (req, res) => {
-    res.send(bids);
+    const filters = req.query;
+
+    if (Object.keys(filters).length === 0) {
+        res.send(bids);
+    } else {
+        const filteredBids = bids.filter(bid => {
+            let isValid = true;
+            for (let key in filters) {
+                isValid = isValid && bid[key] == filters[key];
+            }
+            return isValid;
+        });
+        res.send(filteredBids);
+    }
 });
 
 router.get('/:id', (req, res) => {
