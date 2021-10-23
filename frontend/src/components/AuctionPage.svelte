@@ -1,72 +1,236 @@
 <script>
+    import Navbar from "./Navbar.svelte";
+    import Footer from './Footer.svelte'
     import {onMount} from "svelte";
-    let auction;
-    let title;
+    import tokenStore from "../stores/token";
 
+    export let params;
 
+    let auction = {};
+    let auctionId = params.id;
+    let isClosed = true;
+    let startPrice = '';
+    let currentBid = '';
+    let value;
+    $: value = currentBid;
+    let days = '';
+    let hours = '';
+    let minutes = '';
+    let seconds = '';
+    onMount(async () => {
+        auction = await getOneAuction();
+        startPrice = auction.startPrice;
+        currentBid = startPrice;
+
+        let startTime = new Date(auction.startTime).getTime();
+        let endTime = new Date(auction.endTime).getTime();
+        let now = new Date().getTime();
+        if (now > startTime && now < endTime) {
+            isClosed = false;
+            const x = setInterval(() => {
+                now = new Date().getTime();
+                let timeLeft = endTime - now;
+                days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                if (timeLeft < 0) {
+                    clearInterval(x);
+                    isClosed = true;
+                }
+            }, 1000);
+        }
+
+        auction.status = isClosed ? 'Closed' : 'Opened';
+        // TODO: If the auction status changes, do we update the data??
+        // auction = await updateAuction();
+    })
+
+    async function getOneAuction(){
+        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
+
+        return handleErrors(response).json();
+    }
+
+    async function updateAuction() {
+        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({auction})
+        });
+
+        return handleErrors(response).json();
+    }
+
+    let bids = [startPrice];
+    let isValid = true;
+    function addBid() {
+        isValid = validateBid();
+        console.log(bids);
+        if (isValid) {
+            bids.push(currentBid);
+            bids = bids;
+            postBid();
+        }
+    }
+
+    async function postBid() {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date + ' ' + time;
+
+        const response = await fetch('http://localhost:3000/bids', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({dateTime, currentBid})
+        });
+
+        return handleErrors(response);
+    }
+
+    function validateBid() {
+        return currentBid > bids.at(-1);
+    }
+
+    function handleErrors(response) {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return response;
+    }
 </script>
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<Navbar />
+<div class="page_container">
+    <div class="left_column">
+        {#await getOneAuction()}
+            <h1>Item loading...</h1>
+        {:then auction}
+            <div class="item_name">
+                <h1>{auction.item}</h1>
+            </div>
+            <div class="auction_image">
+                <img src={auction.image} alt="Auction image">
+            </div>
+        {:catch error}
+            <h1>Something went wrong!</h1>
+            <p>{error.message}</p>
+        {/await}
+    </div>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-</head>
-
-<body>
-
-    <div class="row justify-content-around align-middle">
-        <div class="col-6 align-self-start">
-            <h1 class="text-start fs-1 fw-bold">TITLE</h1>
-            <img src="images/antique-sideboard.jpg" class="img-fluid rounded" alt="product">
-        </div>
-
-        <div class="col-4 align-self-center">
+    <div class="right_column">
+        <div class="form_container">
             <div class="text-center time__container border px-5 py-3">
-                <h1 class="fs-3 fw-bold">Closes in: 0 day 02:00:00</h1>
+                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
                 <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">Current bid: $1000</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: ${currentBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
-                <div class="mb-3">
-                    <label for="bid-directly" class="form-label">Bid directly</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">$</span>
-                        <input id="bid-directly" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                        <button type="button" class="btn">Place bid</button>
+                {#if isClosed}
+                    <h3>Come back later!</h3>
+                {:else}
+                    <div class="mb-3">
+                        <label for="bid-directly" class="form-label">Bid directly</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <button on:click={() => {currentBid = value; addBid()}} type="button" class="btn">Place bid</button>
+                            {#if !isValid}
+                                <small>Bid must be higher than the last price!</small>
+                            {/if}
+                        </div>
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="bid-automatically" class="form-label">Bid automatically</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">$</span>
-                        <input id="bid-automatically" type="text" class="form-control me-2" aria-label="Amount (to the nearest dollar)">
-                        <button type="button" class="btn">Bid automatically</button>
-                    </div>
-                </div>
+                {/if}
             </form>
             <div class="text-center align-middle px-5 py-3 border">
-                <span class="fs-4 fw-medium">No bids placed.</span>
+                {#if bids.length === 1} <!-- the first "bid" is the start price -->
+                    <span class="fs-4 fw-medium">No bids placed.</span>
+                {/if}
             </div>
         </div>
     </div>
-</body>
-
+</div>
+<Footer/>
 <style>
     * {
         font-family: Andale Mono, monospace;
+        overflow: hidden;
+    }
+
+    .page_container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 80vh;
+    }
+
+    .left_column, .right_column {
+        height: 100%;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left_column {
+        justify-content: flex-start;
+    }
+
+    .right_column {
+        justify-content: center;
+    }
+
+    .item_name {
+        margin-top: 20px;
+        width: 100%;
+        height: 8%;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 35px;
+        font-weight: bolder;
+    }
+
+    h2, h3 {
+        font-size: 25px !important;
+    }
+
+    .auction_image {
+        height: 80%;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    img {
+        max-height: 100%;
+        max-width: 100%;
     }
 
     .time__container {
         background: #D39B2C;
+        padding: 15px !important;
+    }
+
+    .form_container {
+        width: 500px;
+        height: 520px;
+    }
+
+    .fw-medium {
+        margin: 0;
     }
 
     button {

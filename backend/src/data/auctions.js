@@ -2,91 +2,91 @@ const auctions = [
     {
         id: 1,
         item : 'Fair Rosamond',
-        image: '/images/fair-rosamund.jpg',
+        image: 'http://localhost:3000/images/fair-rosamund.jpg',
         category : 'Arts',
-        isClosed : 'false',
-        startingTime : 'December 12, 2021 8:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'October 12, 2021 8:00 PM',
+        endTime : 'December 15, 2021 8:00 PM',
         details : 'Painting by Kate Muriel Mason',
-        startingPrice : '30000 GBP'
+        startPrice : '30000$'
     },
     {
         id: 2,
         item : 'Chromatic Harmonica',
-        image: '/images/chromatic-harmonica.jpg',
+        image: 'http://localhost:3000/images/chromatic-harmonica.jpg',
         category : 'Musical instruments',
-        isClosed : 'true',
-        startingTime : 'December 31, 2021 6:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'October 15, 2021 6:00 PM',
+        endTime : 'January 10, 2022 6:00 PM',
         details : 'Huang Professional 1248, Chromatic Harmonica.',
-        startingPrice : '1695 GBP'
+        startPrice : '1695$'
     },
     {
         id: 3,
         item : 'Pottery Vase',
-        image: '/images/pottery-vase.jpg',
+        image: 'http://localhost:3000/images/pottery-vase.jpg',
         category : 'Crafts',
-        isClosed : 'false',
-        startingTime : 'October 8, 2021 3:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'October 14, 2021 3:00 PM',
+        endTime : 'December 20, 2021 3:00 PM',
         details : 'Pottery vase by George Cartlidge.',
-        startingPrice : '595 GBP'
+        startPrice : '595$'
     },
     {
         id: 4,
         item : 'Guillaume Berleur Pistol',
-        image: '/images/pistol.jpg',
+        image: 'http://localhost:3000/images/pistol.jpg',
         category : 'Guns',
-        isClosed : 'false',
-        startingTime : 'December 31, 2021 8:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'December 25, 2021 8:00 PM',
+        endTime : 'December 31, 2021 8:00 PM',
         details : 'Double barrel and trigger side by side flintlock pistol by the Belgian gunsmith Guillaume Berleur.',
-        startingPrice : '125 GBP'
+        startPrice : '125$'
     },
     {
         id: 5,
         item : 'Cactus Bloom',
-        image: '/images/cactus-bloom.jpg',
+        image: 'http://localhost:3000/images/cactus-bloom.jpg',
         category : 'Arts',
-        isClosed : 'false',
-        startingTime : 'November 12, 2021 4:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'November 12, 2021 4:00 PM',
+        endTime : 'November 17, 2021 4:00 PM',
         details : 'Painting by Edmund Paul',
-        startingPrice : '6100 GBP'
+        startPrice : '6100$'
     },
     {
         id: 6,
         item : 'Musical Putti',
-        image: '/images/musical-putti.jpg',
+        image: 'http://localhost:3000/images/musical-putti.jpg',
         category : 'Jewelry',
-        isClosed : 'false',
-        startingTime : 'November 20, 2021 6:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'November 20, 2021 6:00 PM',
+        endTime : 'November 15, 2021 6:00 PM',
         details : 'Musical Putti and Shell Silver Plated Salt',
-        startingPrice : '4000 GBP'
+        startPrice : '4000$'
     },
     {
         id: 7,
         item : '20th Century Banjo',
-        image: '/images/banjo.jpg',
+        image: 'http://localhost:3000/images/banjo.jpg',
         category : 'Musical instruments',
-        isClosed : 'false',
-        startingTime : 'November 30, 2021 6:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'November 17, 2021 6:00 PM',
+        endTime : 'November 30, 2021 6:00 PM',
         details : 'Early to mid 20thC Banjo.',
-        startingPrice : '2000 GBP'
+        startPrice : '2000$'
     },
 
     {
         id: 8,
         item : '19th Century German Violin',
-        image: '/images/german-violin.jpg',
+        image: 'http://localhost:3000/images/german-violin.jpg',
         category : 'Musical instruments',
-        isClosed : 'false',
-        startingTime : 'October 8, 2021 2:00 PM',
-        duration : '',
+        status : 'Closed',
+        startTime : 'December 25, 2021 2:00 PM',
+        endTime : 'December 30, 2021 2:00 PM',
         details : '19thC German violin, of stained maple construction with carved lion\'s head scroll, the tailpiece with inlaid floral decoration.',
-        startingPrice : '500 GBP'
+        startPrice : '500$'
     }
 ]
 

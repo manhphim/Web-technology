@@ -1,6 +1,5 @@
 <script>
-    import { navigate } from 'svelte-routing';
-    import { onMount } from 'svelte';
+    import router from 'page';
 
     let usernameContainer;
     let emailContainer;
@@ -15,9 +14,7 @@
     let checkPassword2 = true;
     let emailMessage = '';
     let passwordMessage = '';
-
     let form;
-
 
     const handleSubmit = async () => {
         checkPassword = passwordValidation(password.trim());
@@ -26,14 +23,12 @@
             console.log('in if in handleSubmit');
             const response = await submit();
             if (response['status'] === 201) {
-                navigate('/');
+                router.redirect('/');
             }
         }  else {
 
         }
     };
-
-
 
     async function submit() {
         console.log('in submit ', username, password);
@@ -49,7 +44,7 @@
             return await response;
         } catch (e) {
             console.log(e);
-            navigate("/register");
+            router.redirect("/register");
             alert('Something went wrong!');
         }
     }
@@ -119,16 +114,13 @@
                 <button type="submit">Register</button>
             </div>
             
-            <p class="signin__redirect">Have an account? Sign in <a on:click = {navigate('/register')} class="login__redirect-link" href="/">here</a></p>
+            <p class="signin__redirect">Have an account? Sign in <a href="/" class="login__redirect-link">here</a></p>
         </form>
         
     </div>
     <div class="background__image">
         <img src="https://images.pexels.com/photos/2079670/pexels-photo-2079670.jpeg?cs=srgb&dl=pexels-emre-can-acer-2079670.jpg&fm=jpg" alt="">
     </div>
-    
-
-    
 </body>
 
 <style>
@@ -150,7 +142,6 @@
     .register__container {
         display: block;
         position: absolute;
-        border-radius: 50px;
         width: 623px;
         height: 90%;
         z-index: 10;

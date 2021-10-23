@@ -1,30 +1,23 @@
 <script>
-    import { Router } from "svelte-routing";
-    import { navigate } from 'svelte-routing'
+    import router from 'page';
     import tokenStore from "../stores/token";
-    let logo = {
-        id: 'logo',
-        path: 'images/logo/logo2.png'
-    }
-    $: console.log($tokenStore);
 
     function handleLogOut() {
         $tokenStore = "";
-        navigate('/');
+        router.redirect('/');
     }
-
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</svelte:head>
+<!--<svelte:head>-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
+<!--</svelte:head>-->
 
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img class="img-fluid" src="{logo.path}" alt="{logo.id}" height="100" width="300">
+        <a class="navbar-brand" href="/home">
+            <img class="img-fluid" src="/images/logo.png" alt="logo" height="100" width="300">
         </a>
         <form class="d-flex mb-2" style="width: 30%">
             <input class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -34,8 +27,8 @@
             {#if $tokenStore.token !== ""}
                 <button on:click={handleLogOut} type="button" class="btn btn-warning btn-lg">Log out</button>
             {:else}
-                <button on:click={() => navigate('/register')} type="button" class="btn btn-outline-warning btn-lg mx-3">Sign up</button>
-                <button on:click={() => navigate('/')} type="button" class="btn btn-warning btn-lg">Login</button>
+                <button on:click={() => router.redirect('/register')} type="button" class="btn btn-outline-warning btn-lg mx-3">Sign up</button>
+                <button on:click={() => router.redirect('/')} type="button" class="btn btn-warning btn-lg">Login</button>
             {/if}
         </div>
     </div>
@@ -54,7 +47,6 @@
         </div>
     </div>
 </nav>
-
 
 <style>
     .navbar-container {

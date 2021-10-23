@@ -1,28 +1,12 @@
 <script>
     import {onMount} from "svelte";
+    import router from 'page';
 
     let auctions = [];
-
-    const getOneAuction = async (auction) => {
-        try {
-            for (let item of auctions) {
-                if (item.id === auction.id) {
-                    const response = await fetch('http://localhost:3000/auctions/' + item.id);
-                    if (response) {
-                        console.log(response.json());
-                    }
-                }
-            }
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
-        }
-    }
-
-
     onMount(async() => {
         auctions = await getAllAuctions();
-    })
+    });
+
     async function getAllAuctions() {
         try {
             const response = await fetch('http://localhost:3000/auctions');
@@ -32,25 +16,22 @@
             alert('Something went wrong!');
         }
     }
-
 </script>
 
-<body>
-    <div class="auction-container">
-        {#each auctions as auction (auction.id)}
-            <div class="auction-wrapper">
-                <div on:click={getOneAuction(auction)} class="auction-image" id="{auction.id}">
-                    <img src="{auction['image']}" alt="{auction['item']}">
-                </div>
-                <div class="auction-title">{auction['item']}</div>
-                <div class="auction-title">Starting price: {auction['startingPrice']}</div>
+<div class="auctions-container">
+    {#each auctions as auction (auction.id)}
+        <div class="auction-wrapper">
+            <div class="auction-image bg-image hover-zoom p-3 mb-5 rounded" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
+                <img src="{auction['image']}" alt="{auction['item']}">
             </div>
-        {/each}
-    </div>
-</body>
+            <div class="auction-item"><a href="/auctions/{auction.id}">{auction['item']}</a></div>
+            <div class="auction-price">Starting price: {auction['startPrice']}</div>
+        </div>
+    {/each}
+</div>
 
 <style>
-    .auction-container {
+    .auctions-container {
         display: grid;
         grid-template-rows: repeat(4, 1fr);
         grid-template-columns: repeat(4, 1fr);
@@ -72,23 +53,28 @@
         width: 400px;
         height: 400px;
         border: 1px solid #ddd;
+        cursor: pointer;
     }
 
-    .auction-title {
+    .auction-item {
         font-family: Andale Mono, monospace;
         font-size: 20px;
         font-weight: normal;
         margin: 0 0 10px 0;
     }
+
     img {
         max-height: 300px;
         max-width: 300px;
     }
 
+    a, a:hover {
+        color: #000;
+    }
+
     @media screen and (max-width: 1024px) {
-        .auction-container {
+        .auctions-container {
             grid-template-columns: repeat(2, 1fr) ;
         }
     }
-
 </style>
