@@ -9,6 +9,7 @@
     let auction = {};
     let auctionId = params.id;
     let isClosed = true;
+    let bids = [];
     let startPrice = '';
     let currentBid = '';
     let value;
@@ -21,6 +22,8 @@
         auction = await getOneAuction();
         startPrice = auction.startPrice;
         currentBid = startPrice;
+        bids.push(currentBid);
+        bids = bids;
 
         let startTime = new Date(auction.startTime).getTime();
         let endTime = new Date(auction.endTime).getTime();
@@ -47,7 +50,7 @@
         // auction = await updateAuction();
     })
 
-    async function getOneAuction(){
+    async function getOneAuction() {
         const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
 
         return handleErrors(response).json();
@@ -65,12 +68,11 @@
         return handleErrors(response).json();
     }
 
-    let bids = [startPrice];
     let isValid = true;
     function addBid() {
         isValid = validateBid();
-        console.log(bids);
         if (isValid) {
+            currentBid = value;
             bids.push(currentBid);
             bids = bids;
             postBid();
@@ -95,7 +97,7 @@
     }
 
     function validateBid() {
-        return currentBid > bids.at(-1);
+        return value > bids.at(-1);
     }
 
     function handleErrors(response) {
@@ -129,10 +131,9 @@
         <div class="form_container">
             <div class="text-center time__container border px-5 py-3">
                 <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
-                <p class="fs-5 fw-medium">You haven't placed any bid on this lot.</p>
             </div>
             <div class="text-start border px-5 py-3">
-                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: ${startPrice}` : `Current bid: ${currentBid}`}</h3>
+                <h3 class="fs-3 fw-medium">{isClosed ? `Start price: $${startPrice}` : `Current bid: $${currentBid}`}</h3>
             </div>
 
             <form class="border px-5 py-3">
@@ -142,9 +143,9 @@
                     <div class="mb-3">
                         <label for="bid-directly" class="form-label">Bid directly</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text"></span>
                             <input value={value} on:input={e => value = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                            <button on:click={() => {currentBid = value; addBid()}} type="button" class="btn">Place bid</button>
+                            <button on:click={() => {addBid()}} type="button" class="btn">Place bid</button>
                             {#if !isValid}
                                 <small>Bid must be higher than the last price!</small>
                             {/if}
