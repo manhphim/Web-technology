@@ -9,7 +9,10 @@
 	let params;
 
 	router('/', (ctx) => page = LoginForm);
-	router('/home', (ctx) => page = Home);
+	router('/home/categories/:category', (ctx) => {
+	    params = ctx.params;
+	    page = Home;
+    });
     router('/register', (ctx) => page = RegisterForm);
     router('/auctions/:id', (ctx) => {
         params = ctx.params;

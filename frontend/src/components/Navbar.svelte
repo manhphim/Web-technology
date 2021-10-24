@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home">
+        <a class="navbar-brand" href="/home/categories/all">
             <img class="img-fluid" src="/images/logo.png" alt="logo" height="100" width="300">
         </a>
         <form class="d-flex mb-2" style="width: 30%">
@@ -38,14 +38,14 @@
 <nav class="navbar hidden-xs">
     <div class="container-fluid" style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
         <div class="navbar-container container-fluid" style="width: 80%">
-            <a class="left-links" href="" on:click={() => { $categoryStore = ""}}>Auctions</a>
+            <a class="left-links" href="" on:click={() => router.redirect('/home/categories/all')}>Auctions</a>
             <a class="left-links" href="">Artist</a>
             <span class="divider"></span>
-            <a class="right-links" href="" on:click={() => { $categoryStore = "Musical instruments"}}>Musical instruments</a>
-            <a class="right-links" href="" on:click={() => { $categoryStore = "Crafts"}}>Crafts</a>
-            <a class="right-links" href="" on:click={() => {$categoryStore = "Guns"}}>Guns</a>
-            <a class="right-links" href="" on:click={() => {$categoryStore = "Arts"}}>Arts</a>
-            <a class="right-links" href="" on:click={() => {$categoryStore = "Jewelry"}}>Jewelry</a>
+            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/instruments')}>Musical instruments</a>
+            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/crafts')}>Crafts</a>
+            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/guns')}>Guns</a>
+            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/arts')}>Arts</a>
+            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/jewelry')}>Jewelry</a>
         </div>
     </div>
 </nav>

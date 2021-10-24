@@ -3,11 +3,12 @@
     import Footer from "./Footer.svelte"
     import Navbar from "./Navbar.svelte"
 
+    export let params = '';
 </script>
 
 <Navbar/>
 <div class="auctions">
-    <Auctions />
+    <Auctions category="{params.category}"/>
 </div>
 <Footer/>
 

@@ -22,7 +22,7 @@
         console.log($tokenStore);
 
         if (response['status'] === 200) {
-            router.redirect('/home');
+            router.redirect('/home/categories/all');
         } else {
             alert('Something is wrong with your credentials')
         }

@@ -1,25 +1,15 @@
 <script>
-    import {onMount} from "svelte";
     import router from 'page';
-    import userStore from "../stores/user";
-    import categoryStore from "../stores/category";
 
+    export let category = '';
+    $: category, getAuctions();
     let auctions = [];
-    onMount(async() => {
-        $categoryStore = "";
-        await getAuctions();
-    });
-
-    $: $categoryStore, getAuctions();
     async function getAuctions() {
-        let category;
-        categoryStore.subscribe(value => category = value);
-
         let response;
-        if (category !== "") {
-            response = await fetch(`http://localhost:3000/auctions?category=${category}`);
-        } else {
+        if (category === "all") {
             response = await fetch('http://localhost:3000/auctions');
+        } else {
+            response = await fetch(`http://localhost:3000/auctions?category=${category}`);
         }
 
         if (!response.ok) {
