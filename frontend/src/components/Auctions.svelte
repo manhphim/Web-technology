@@ -1,9 +1,11 @@
 <script>
     import router from 'page';
+    import { text } from "../stores/search.js";
 
     export let category = '';
     $: category, getAuctions();
     let auctions = [];
+    let filteredAuctions = [];
     async function getAuctions() {
         let response;
         if (category === "all") {
@@ -15,12 +17,24 @@
         if (!response.ok) {
             throw new Error(response.statusText);
         }
+
         auctions = await response.json();
+        filteredAuctions = auctions;
+    }
+
+    let searchText;
+    text.subscribe(value => searchText = value);
+    $: searchText, searchAuctions();
+    function searchAuctions() {
+        filteredAuctions = auctions.filter(auction => {
+            let item = auction.item.toLowerCase();
+            return item.includes(searchText.toLowerCase())
+        });
     }
 </script>
 
 <div class="auctions-container">
-    {#each auctions as auction (auction.id)}
+    {#each filteredAuctions as auction (auction.id)}
         <div class="auction-wrapper">
             <div class="auction-image bg-image hover-zoom p-3 mb-5 rounded" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
                 <img src="{auction['image']}" alt="{auction['item']}">

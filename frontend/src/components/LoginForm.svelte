@@ -1,7 +1,5 @@
 <script>
-    import { navigate } from 'svelte-routing';
     import router from 'page';
-
     import tokenStore from '../stores/token';
     import userStore from '../stores/user';
     import { onMount } from 'svelte'
@@ -12,7 +10,6 @@
     let passwordContainer;
     let formValidation = true;
     let user = {};
-
     onMount(async () => {
         userStore.subscribe(value => user = value);
     })

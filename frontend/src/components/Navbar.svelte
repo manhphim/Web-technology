@@ -1,12 +1,14 @@
 <script>
     import router from 'page';
     import tokenStore from "../stores/token";
-    import categoryStore from "../stores/category";
+    import SearchBar from "./SearchBar.svelte";
 
     function handleLogOut() {
         $tokenStore = "";
         router.redirect('/');
     }
+
+
 </script>
 
 <!--<svelte:head>-->
@@ -20,10 +22,12 @@
         <a class="navbar-brand" href="/home/categories/all">
             <img class="img-fluid" src="/images/logo.png" alt="logo" height="100" width="300">
         </a>
-        <form class="d-flex mb-2" style="width: 30%">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-warning" type="submit">Search</button>
-        </form>
+
+        <!-------------SEARCH BAR---------------->
+        <div id="search-wrapper">
+            <SearchBar />
+        </div>
+
         <div class="d-flex mb-2">
             {#if $tokenStore.token !== ""}
                 <button on:click={handleLogOut} type="button" class="btn btn-warning btn-lg">Log out</button>
@@ -87,7 +91,7 @@
         font-weight: 1.1;
         color: #BB8700;
     }
-    
+
     @media (min-width: 1200px) {
         .container-fluid {
             padding-left: 60px;
