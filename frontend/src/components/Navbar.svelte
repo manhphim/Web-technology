@@ -39,7 +39,6 @@
     <div class="container-fluid" style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
         <div class="navbar-container container-fluid" style="width: 80%">
             <a class="left-links" href="" on:click={() => router.redirect('/home/categories/all')}>Auctions</a>
-            <a class="left-links" href="">Artist</a>
             <span class="divider"></span>
             <a class="right-links" href="" on:click={() => router.redirect('/home/categories/instruments')}>Musical instruments</a>
             <a class="right-links" href="" on:click={() => router.redirect('/home/categories/crafts')}>Crafts</a>
