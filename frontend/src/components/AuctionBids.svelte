@@ -4,14 +4,8 @@
 
 <div class="table-container">
     {#if bids.length !== 1} <!-- the first "bid" is the start price -->
-        <table>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Time</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
+        <table class="table table-borderless caption-top">
+            <caption>List of bids</caption>
             <tbody>
                 {#each bids as bid}
                     <tr>
@@ -22,15 +16,9 @@
                 {/each}
             </tbody>
         </table>
+
     {/if}
 </div>
 <style>
-    table {
-        text-align: center;
-        table-layout: fixed;
-        width: 100%;
-        height: auto;
-        border-spacing: 0;
-        border-collapse: separate;
-    }
+
 </style>

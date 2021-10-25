@@ -4,6 +4,7 @@
     import {onMount} from "svelte";
     import tokenStore from "../stores/token";
     import AuctionBids from "./AuctionBids.svelte";
+    import token from "../stores/token";
 
     export let params;
     let username = 'melissa';
@@ -24,6 +25,7 @@
         auction = await getOneAuction();
         bids = await getBidsByAuctionId();
         lastBid = bids.at(-1).price;
+        console.log($tokenStore);
 
         let startTime = new Date(auction.startTime).getTime();
         let endTime = new Date(auction.endTime).getTime();
@@ -121,8 +123,13 @@
 </script>
 
 <Navbar />
-<div class="page_container">
-    <div class="left_column">
+<div class="row">
+    {#if $tokenStore == ""}
+        <div class="border">
+            <p>User need to <a>Sign up</a> or <a>Create an account</a> before bidding.</p>
+        </div>
+    {/if}
+    <div class="left_column col-sm-6">
         {#await getOneAuction()}
             <h1>Item loading...</h1>
         {:then auction}
@@ -138,7 +145,7 @@
         {/await}
     </div>
 
-    <div class="right_column">
+    <div class="right_column col-sm-6">
         <div class="form_container">
             <div class="text-center time__container border px-5 py-3">
                 <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
@@ -154,7 +161,7 @@
                     <div class="mb-3">
                         <label for="bid-directly" class="form-label">Bid directly</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text"></span>
+                            <span class="input-group-text">$</span>
                             <input value={currentBid} on:input={e => currentBid = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             <button on:click={() => {addBid()}} type="button" class="btn">Place bid</button>
                             {#if !isValid}
@@ -164,30 +171,25 @@
                     </div>
                 {/if}
             </form>
-            <div class="text-center align-middle px-5 py-3 border">
                 {#if bids.length === 1} <!-- the first "bid" is the start price -->
-                    <span class="fs-4 fw-medium">No bids placed.</span>
+                    <div class="text-center px-5 py-3 border">
+                        <span class="fs-4 fw-medium">No bids placed.</span>
+                    </div>
+                {:else}
+                    <div class="px-5 py-3 border">
+                        <AuctionBids bind:bids = {bids} />
+                    </div>
                 {/if}
-            </div>
-        </div>
-        <div class="bids-container">
-            <AuctionBids bind:bids = {bids} />
         </div>
     </div>
 </div>
 <Footer/>
+
 <style>
     * {
         font-family: Andale Mono, monospace;
-        overflow: hidden;
     }
 
-    .page_container {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: 80vh;
-    }
 
     .left_column, .right_column {
         height: 100%;
@@ -195,19 +197,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-
-    .left_column {
         justify-content: flex-start;
-    }
-
-    .right_column {
-        justify-content: center;
-        padding: 50px;
+        margin-top: 100px;
     }
 
     .item_name {
-        margin-top: 20px;
         width: 100%;
         height: 8%;
         text-align: center;
@@ -223,11 +217,10 @@
     }
 
     .auction_image {
-        height: 80%;
-        width: 80%;
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 600px;
     }
 
     img {
@@ -254,8 +247,4 @@
         color: white;
     }
 
-    .bids-container {
-        width: 100%;
-        height: 30%;
-    }
 </style>

@@ -47,9 +47,10 @@
 
 <style>
     .auctions-container {
+        margin-top: 2rem;
         display: grid;
-        grid-template-rows: repeat(4, 1fr);
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 30px 0;
     }
 
@@ -65,8 +66,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 400px;
-        height: 400px;
+        width: 80%;
+        height: 80%;
         border: 1px solid #ddd;
         cursor: pointer;
     }
@@ -87,9 +88,15 @@
         color: #000;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 992px) {
         .auctions-container {
-            grid-template-columns: repeat(2, 1fr) ;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .auctions-container {
+            grid-template-columns: repeat(1, 1fr);
         }
     }
 </style>

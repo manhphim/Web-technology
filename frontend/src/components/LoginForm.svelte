@@ -17,11 +17,14 @@
     const handleSubmit = async () => {
         const response = await submit();
         console.log($tokenStore);
-
-        if (response['status'] === 200) {
-            router.redirect('/home/categories/all');
+        if (response) {
+            if (response['status'] === 200 && user.roles.includes('admin')) {
+                router.redirect('/admin');
+            } else {
+                router.redirect('/home/categories/all');
+            }
         } else {
-            alert('Something is wrong with your credentials')
+            alert('Something went wrong with your credentials!');
         }
     };
 
@@ -79,10 +82,6 @@
                 <small>Error message</small>
             </div>
 
-            <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
-            
             <div class="submit__button">
                 <button type="submit">Login</button>
             </div>
