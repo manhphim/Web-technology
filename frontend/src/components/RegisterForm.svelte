@@ -5,22 +5,21 @@
     let emailContainer;
     let passwordContainer;
     let password2Container;
-    let username = '';
-    let email = '';
-    let password = '';
-    let password2 = '';
+    let username;
+    let email;
+    let password;
+    let password2;
     let checkEmail = true;
+    let emailMessage;
     let checkPassword = true;
     let checkPassword2 = true;
-    let emailMessage = '';
-    let passwordMessage = '';
+    let passwordMessage;
     let form;
 
     const handleSubmit = async () => {
         checkPassword = passwordValidation(password.trim());
         checkPassword2 = password.trim() === password2.trim();
         if (checkEmail && checkPassword && checkPassword2) {
-            console.log('in if in handleSubmit');
             const response = await submit();
             if (response['status'] === 201) {
                 router.redirect('/');
@@ -31,7 +30,6 @@
     };
 
     async function submit() {
-        console.log('in submit ', username, password);
         try {
             const response = await fetch('http://localhost:3000/users/register', {
                 method: 'POST',
@@ -67,10 +65,6 @@
 
         return true;
     }
-
-
-
-
 </script>
 
 <head>
@@ -116,7 +110,6 @@
             
             <p class="signin__redirect">Have an account? Sign in <a href="/" class="login__redirect-link">here</a></p>
         </form>
-        
     </div>
     <div class="background__image">
         <img src="https://images.pexels.com/photos/2079670/pexels-photo-2079670.jpeg?cs=srgb&dl=pexels-emre-can-acer-2079670.jpg&fm=jpg" alt="">
@@ -234,6 +227,4 @@
             width: 100%;
         }
     }
-
-
 </style>

@@ -4,59 +4,40 @@
     import userStore from '../stores/user';
     import { onMount } from 'svelte'
 
-    let username = '';
-    let password = '';
-    let usernameContainer;
-    let passwordContainer;
-    let formValidation = true;
     let user = {};
     onMount(async () => {
         userStore.subscribe(value => user = value);
-    })
+    });
 
     const handleSubmit = async () => {
-        const response = await submit();
-        console.log($tokenStore);
-        if (response) {
-            if (response['status'] === 200 && user.roles.includes('admin')) {
-                router.redirect('/admin');
-            } else {
-                router.redirect('/home/categories/all');
-            }
+        await submit();
+
+        if (user.roles.includes('admin')) {
+            router.redirect('/admin');
         } else {
-            alert('Something went wrong with your credentials!');
+            router.redirect('/home/categories/all');
         }
     };
 
+    let username = '';
+    let password = '';
     async function submit() {
-        try {
-            const response = await fetch('http://localhost:3000/credentials', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({username, password})
-            });
+        const response = await fetch('http://localhost:3000/credentials', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({username, password})
+        });
 
-            const data=await response.json();
-            $tokenStore=data.token;
-            $userStore=data.user;
-            console.log($userStore);
-            return await response;
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
+        if (!response.ok) {
+            alert('Something went wrong with your credentials!');
+            throw new Error(response.statusText);
         }
-    }
 
-    function CheckPassword(inputtxt) {
-        let passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-        if(inputtxt.match(passw)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        const data = await response.json();
+        $tokenStore = data.token;
+        $userStore = data.user;
     }
 </script>
 

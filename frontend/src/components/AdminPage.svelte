@@ -4,7 +4,6 @@
     import DeleteModal from "./DeleteModal.svelte";
     import tokenStore from "../stores/token";
     import auctionStore from "../stores/auction";
-    import auction from "../stores/auction";
 
     let auctions = [];
     let keys = []
@@ -24,8 +23,6 @@
             categorySet.add(auction.category);
         });
         categories = [...categorySet];
-        console.log(auctions);
-        console.log($tokenStore);
     })
 
     async function getAllAuctions() {
@@ -40,7 +37,6 @@
 
     function getSelectedAuction(id) {
         $auctionStore = id;
-        console.log($auctionStore);
     }
 </script>
 
