@@ -2,7 +2,7 @@
 <footer class="text-center text-lg-start bg-light text-muted">
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
         © 2021 Copyright:
-        <a class="text-reset fw-bold" href="#">Web Tech Auction</a>
+        <a class="text-reset fw-bold" href="#">Web tech auctions</a>
     </div>
     <!-- Copyright -->
 </footer>

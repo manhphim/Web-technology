@@ -40,7 +40,7 @@
                 <img src="{auction['image']}" alt="{auction['item']}">
             </div>
             <div class="auction-item"><a href="/auctions/{auction.id}">{auction['item']}</a></div>
-            <div class="auction-price">Starting price: {auction['startPrice']}</div>
+            <div class="auction-price">Starting price: ${auction['startPrice']}</div>
         </div>
     {/each}
 </div>
