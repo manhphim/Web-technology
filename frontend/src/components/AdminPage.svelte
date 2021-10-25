@@ -6,7 +6,6 @@
     import auctionStore from "../stores/auction";
     import auction from "../stores/auction";
 
-
     let auctions = [];
     let keys = []
     let categorySet = new Set();
@@ -15,11 +14,6 @@
     let selectedValue = 0;
     let categories = [];
     let selectedAuction;
-
-
-
-
-
 
     onMount(async() => {
         auctions = await getAllAuctions();
@@ -33,6 +27,7 @@
         console.log(auctions);
         console.log($tokenStore);
     })
+
     async function getAllAuctions() {
         try {
             const response = await fetch('http://localhost:3000/auctions');
@@ -47,8 +42,6 @@
         $auctionStore = id;
         console.log($auctionStore);
     }
-
-
 </script>
 
 <svelte:head>
@@ -57,13 +50,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </svelte:head>
 <body>
-
     <div class="bg-image background__image">
         <div class="background-overlay"></div>
     </div>
 
     <div class="main_body">
-
         <h1 class="text-center my-5">Admin page</h1>
         <div class="table__container table-responsive-xl d-flex justify-content-center">
             <table class="table caption-top">
@@ -75,10 +66,14 @@
                 </caption>
                 <thead class="text-center">
                 <tr>
-                    {#each keys as key}
-                        <th scope="col">{key}</th>
-                    {/each}
-                    <th scope="col">Action</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">End time</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Start price</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -153,6 +148,4 @@
         height: 800px;
         overflow: scroll;
     }
-
-
 </style>
