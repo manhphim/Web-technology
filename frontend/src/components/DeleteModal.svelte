@@ -40,7 +40,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
-            <button on:click={() => deleteAuction()} type="submit" class="btn btn-warning">Submit</button>
+            <button on:click={() => deleteAuction()} type="submit" class="btn btn-warning" data-bs-dismiss="modal">Submit</button>
         </div>
     </div>
 </div>
