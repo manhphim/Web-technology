@@ -2,6 +2,8 @@
     import tokenStore from "../stores/token";
 
     export let auctionId = '';
+    export let getAllAuctions;
+
     async function deleteAuction() {
         const response = await fetch(`http://localhost:3000/auctions/${auctionId}`,{
             method: 'DELETE',
@@ -12,7 +14,8 @@
         });
         handleErrors(response);
 
-        return await response.json();
+        await getAllAuctions();
+        return response;
     }
 
     function handleErrors(response) {

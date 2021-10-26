@@ -4,6 +4,7 @@
     export let modalTitle = '';
     export let auctionId = '';
     export let categories = [];
+    export let getAllAuctions;
 
     let name;
     let details;
@@ -51,6 +52,7 @@
         });
         handleErrors(response);
 
+        await getAllAuctions();
         return await response.json();
     }
 

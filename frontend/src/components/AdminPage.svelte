@@ -3,7 +3,6 @@
     import NewAuctionModal from "./NewAuctionModal.svelte";
     import DeleteModal from "./DeleteModal.svelte";
 
-    let auctions = [];
     let auctionId;
     let keys = []
     let selected;
@@ -12,7 +11,8 @@
     let selectedAuction;
 
     onMount(async () => {
-        auctions = await getAllAuctions();
+        await getAllAuctions();
+
         keys = Object.keys(auctions[1]);
         keys.splice(keys.indexOf('image'), 1);
 
@@ -24,11 +24,12 @@
         categories = [...categorySet];
     });
 
+    let auctions = [];
     async function getAllAuctions() {
         const response = await fetch('http://localhost:3000/auctions');
         handleErrors(response);
 
-        return await response.json()
+        auctions = await response.json()
     }
 
     function handleErrors(response) {
@@ -72,38 +73,38 @@
                 </tr>
                 </thead>
                 <tbody>
-                {#each auctions as auction (auction.id)}
-                    <tr>
-                        {#each Object.values(auction) as value}
-                            <td>{value}</td>
-                        {/each}
-                        <td class="text-center">
-                            <button on:click={() => auctionId = auction.id} class="btn btn-outline-success mb-2" data-bs-toggle="modal" data-bs-target="#editModal">
-                                <i class="bi bi-pencil-fill"></i>
-                                Edit
-                            </button>
-                            <button on:click={()=> auctionId = auction.id} class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <i class="bi bi-trash-fill"></i>
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                {/each}
+                    {#each auctions as auction (auction.id)}
+                        <tr>
+                            {#each Object.values(auction) as value}
+                                <td>{value}</td>
+                            {/each}
+                            <td class="text-center">
+                                <button on:click={() => auctionId = auction.id} class="btn btn-outline-success mb-2" data-bs-toggle="modal" data-bs-target="#editModal">
+                                    <i class="bi bi-pencil-fill"></i>
+                                    Edit
+                                </button>
+                                <button on:click={()=> auctionId = auction.id} class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash-fill"></i>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    {/each}
                 </tbody>
             </table>
         </div>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <NewAuctionModal modalTitle="Add new auction" bind:categories />
+        <NewAuctionModal modalTitle="Add new auction" bind:categories getAllAuctions = {getAllAuctions}/>
     </div>
 
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <NewAuctionModal modalTitle="Edit auction" bind:auctionId bind:categories />
+        <NewAuctionModal modalTitle="Edit auction" bind:auctionId bind:categories getAllAuctions = {getAllAuctions} />
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
-        <DeleteModal bind:auctionId />
+        <DeleteModal bind:auctionId getAllAuctions = {getAllAuctions} />
     </div>
 </body>
 
