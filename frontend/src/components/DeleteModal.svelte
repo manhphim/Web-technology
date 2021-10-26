@@ -1,20 +1,24 @@
 <script>
-    import auctionStore from "../stores/auction";
     import tokenStore from "../stores/token";
 
-    async function deleteSelectedAuction(id) {
-        try {
-            const response = await fetch('http://localhost:3000/auctions/' + $auctionStore,{
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + $tokenStore
-                }
-            });
-            return await response.json();
-        } catch (e) {
-            console.log(e);
+    export let auctionId = '';
+    async function deleteAuction() {
+        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${$tokenStore}`
+            }
+        });
+        handleErrors(response);
+
+        return await response.json();
+    }
+
+    function handleErrors(response) {
+        if (!response.ok) {
             alert('Something went wrong!');
+            throw new Error(response.statusText);
         }
     }
 </script>
@@ -36,7 +40,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
-            <button on:click={deleteSelectedAuction($auctionStore)} type="submit" class="btn btn-warning">Submit</button>
+            <button on:click={() => deleteAuction()} type="submit" class="btn btn-warning">Submit</button>
         </div>
     </div>
 </div>

@@ -2,41 +2,40 @@
     import {onMount} from "svelte";
     import NewAuctionModal from "./NewAuctionModal.svelte";
     import DeleteModal from "./DeleteModal.svelte";
-    import tokenStore from "../stores/token";
-    import auctionStore from "../stores/auction";
 
     let auctions = [];
+    let auctionId;
     let keys = []
-    let categorySet = new Set();
-    let currentTime = new Date();
     let selected;
     let selectedValue = 0;
     let categories = [];
     let selectedAuction;
 
-    onMount(async() => {
+    onMount(async () => {
         auctions = await getAllAuctions();
         keys = Object.keys(auctions[1]);
         keys.splice(keys.indexOf('image'), 1);
+
+        let categorySet = new Set();
         auctions.forEach((auction) => {
             delete auction.image;
             categorySet.add(auction.category);
         });
         categories = [...categorySet];
-    })
+    });
 
     async function getAllAuctions() {
-        try {
-            const response = await fetch('http://localhost:3000/auctions');
-            return await response.json()
-        } catch (e) {
-            console.log(e);
-            alert('Something went wrong!');
-        }
+        const response = await fetch('http://localhost:3000/auctions');
+        handleErrors(response);
+
+        return await response.json()
     }
 
-    function getSelectedAuction(id) {
-        $auctionStore = id;
+    function handleErrors(response) {
+        if (!response.ok) {
+            alert('Something went wrong!');
+            throw new Error(response.statusText);
+        }
     }
 </script>
 
@@ -79,11 +78,11 @@
                             <td>{value}</td>
                         {/each}
                         <td class="text-center">
-                            <button on:click={getSelectedAuction(auction.id)} class="btn btn-outline-success mb-2" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <button on:click={() => auctionId = auction.id} class="btn btn-outline-success mb-2" data-bs-toggle="modal" data-bs-target="#editModal">
                                 <i class="bi bi-pencil-fill"></i>
                                 Edit
                             </button>
-                            <button on:click={getSelectedAuction(auction.id)} class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <button on:click={()=> auctionId = auction.id} class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 <i class="bi bi-trash-fill"></i>
                                 Delete
                             </button>
@@ -96,15 +95,15 @@
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <NewAuctionModal modalTitle="Add new auction"/>
+        <NewAuctionModal modalTitle="Add new auction" bind:categories />
     </div>
 
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <NewAuctionModal modalTitle="Edit auction"/>
+        <NewAuctionModal modalTitle="Edit auction" bind:auctionId bind:categories />
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
-        <DeleteModal/>
+        <DeleteModal bind:auctionId />
     </div>
 </body>
 
@@ -133,7 +132,7 @@
     }
 
     .main_body::-webkit-scrollbar {
-        display: none;
+        display: none; /* Chrome */
     }
 
     td button {
