@@ -3,56 +3,56 @@ const bids = [
         id: 1,
         username: 'melissa',
         auctionId: 1,
-        time : 'October 12, 2021 9:00 PM',
+        time : '2021-10-12 21:01:14',
         price : '30100'
     },
     {
         id: 2,
         username: 'minh',
         auctionId: 2,
-        time : 'October 15, 2021 7:00 PM',
+        time : '2021-10-15 19:02:32',
         price : '1700'
     },
     {
         id: 3,
         username: 'melissa',
         auctionId: 3,
-        time : 'October 14, 2021 3:10 PM',
+        time : '2021-10-14 15:12:17',
         price : '600'
     },
     {
         id: 4,
         username: 'minh',
         auctionId: 1,
-        time : 'October 12, 2021 10:00 PM',
+        time : '2021-10-12 21:10:32',
         price : '30500'
     },
     {
         id: 5,
         username: 'melissa',
         auctionId: 4,
-        time : 'October 20, 2021 8:05 PM',
+        time : '2021-10-20 20:04:33',
         price : '130'
     },
     {
         id: 6,
         username: 'minh',
         auctionId: 4,
-        time : 'October 20, 2021 8:10 PM',
+        time : '2021-10-20 20:10:23',
         price : '135'
     },
     {
         id: 7,
         username: 'melissa',
         auctionId: 2,
-        time : 'October 15, 2021 7:10 PM',
+        time : '2021-10-15 19:05:37',
         price : '1750'
     },
     {
         id: 8,
         username: 'minh',
         auctionId: 3,
-        time : 'October 14, 2021 3:20 PM',
+        time : '2021-10-14 15:16:45',
         price : '700'
     }
 ]
