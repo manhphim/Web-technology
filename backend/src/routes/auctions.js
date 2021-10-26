@@ -27,9 +27,7 @@ router.get('', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const id = req.params.id;
-    const auction = auctions.find((auction) => {
-        return auction.id == id;
-    })
+    const auction = auctions.find((auction) => auction.id == id);
 
     if (auction) {
         res.send(auction);
@@ -52,12 +50,11 @@ router.post('', isLoggedIn, isAdmin, (req, res) => {
 router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
     const { id } = req.params;
     const auctionUpdated = req.body;
+    const index = auctions.findIndex((auction) => auction.id == id);
 
+    if (index !== -1) {
+        auctions[index] = auctionUpdated;
 
-    if(auctions[id-1] != null) {
-        for (let key in auctionUpdated) {
-            auctions[id-1][key] = auctionUpdated[key];
-        }
         res
             .status(StatusCodes.OK)
             .send(auctionUpdated);
@@ -66,7 +63,6 @@ router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
             .status(StatusCodes.NOT_FOUND)
             .send(`Auction with id ${id} not found!`);
     }
-
 });
 
 router.delete('/:id', isLoggedIn, isAdmin, (req, res) => {
@@ -83,4 +79,5 @@ router.delete('/:id', isLoggedIn, isAdmin, (req, res) => {
             .send(`Auction with id ${id} not found!`);
     }
 });
+
 module.exports = router;
