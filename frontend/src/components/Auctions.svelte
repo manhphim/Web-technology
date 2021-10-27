@@ -1,6 +1,7 @@
 <script>
     import router from 'page';
     import { text } from "../stores/search.js";
+    import Countdown from "./Countdown.svelte";
 
     export let category = '';
     $: category, getAuctions();
@@ -39,8 +40,18 @@
             <div class="auction-image bg-image hover-zoom p-3 mb-5 rounded" id="{auction.id}" on:click={() => {router.redirect(`/auctions/${auction.id}`)}} >
                 <img src="{auction['image']}" alt="{auction['item']}">
             </div>
-            <div class="auction-item"><a href="/auctions/{auction.id}">{auction['item']}</a></div>
-            <div class="auction-price">Starting price: ${auction['startPrice']}</div>
+            <div class="auction-info">
+                <div class="auction-item"><a href="/auctions/{auction.id}">{auction.item}</a></div>
+                <div class="auction-price">Starting price: ${auction.startPrice}</div>
+
+                {#if (auction.status === 'Closed')}
+                    <p>Closed</p>
+                {:else}
+                    <div class="countdown">
+                        <Countdown startTime="{auction.startTime}" endTime="{auction.endTime}" />
+                    </div>
+                {/if}
+            </div>
         </div>
     {/each}
 </div>
@@ -66,10 +77,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0;
         width: 80%;
         height: 80%;
         border: 1px solid #ddd;
         cursor: pointer;
+    }
+
+    .auction-info {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 15%;
     }
 
     .auction-item {
@@ -77,11 +96,16 @@
         font-size: 20px;
         font-weight: normal;
         margin: 0 0 10px 0;
+        height: 30%;
     }
 
     img {
         max-height: 300px;
         max-width: 300px;
+    }
+
+    .countdown h2 {
+        font-size: 15px;
     }
 
     a, a:hover {

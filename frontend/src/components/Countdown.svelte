@@ -33,5 +33,5 @@
 </script>
 
 <div class="countdown-wrapper">
-    <h2>{days}d {hours}h {minutes}m {seconds}s</h2>
+    <p>{days}d {hours}h {minutes}m {seconds}s</p>
 </div>
