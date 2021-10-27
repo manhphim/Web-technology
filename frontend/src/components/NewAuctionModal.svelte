@@ -22,9 +22,11 @@
         name = auction.item;
         details = auction.details;
         price = auction.startPrice;
-        startTime = auction.startTime;
-        endTime = auction.endTime;
         selectedCategory = auction.category;
+
+        // change format so the date input can read it
+        startTime = input(auction.startTime);
+        endTime = input(auction.endTime);
     }
 
     async function handleFormSubmit() {
@@ -46,6 +48,7 @@
                 category: selectedCategory,
                 status: 'Closed', //FIXME ??
                 startTime: startTime,
+                endTime: endTime,
                 details: details,
                 startingPrice: price
             })
@@ -61,6 +64,14 @@
             alert('Something went wrong!');
             throw new Error(response.statusText);
         }
+    }
+
+    function input(date) {
+        if (date) return date.replace(" ", "T");
+    }
+
+    function output(date) {
+        if (date) return date.replace("T", " ");
     }
 </script>
 
@@ -80,28 +91,44 @@
             <form action="" on:submit|preventDefault={handleFormSubmit} >
                 <div class="mb-3 mt-3">
                     <label for="item-name" class="form-label">Name of item</label>
-                    <input bind:value={name} type="text" class="form-control" id="item-name" placeholder="Enter name" name="">
+                    <input bind:value={name}
+                           type="text"
+                           class="form-control"
+                           id="item-name"
+                           placeholder="Enter name"
+                           name="">
                 </div>
                 <div class="mb-3">
                     <label for="item-details" class="form-label">Details</label>
-                    <input bind:value={details} type="text" class="form-control" id="item-details" placeholder="Enter details" name="">
+                    <input bind:value={details}
+                           type="text"
+                           class="form-control"
+                           id="item-details"
+                           placeholder="Enter details"
+                           name="">
                 </div>
                 <div class="mb-3">
                     <label for="item-price" class="form-label">Start price</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
-                        <input bind:value={price} type="text" class="form-control" id="item-price" aria-label="Amount (to the nearest dollar)">
+                        <input bind:value={price}
+                               type="text"
+                               class="form-control"
+                               id="item-price"
+                               aria-label="Amount (to the nearest dollar)">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="meeting-time" class="form-label">Start time:</label>
-                    <input bind:value={startTime} class="form-control" type="datetime-local" id="meeting-time"
+                    <input value={startTime}
+                           class="form-control" type="datetime-local" id="meeting-time"
                            name="meeting-time"
                            min="1970-01-01T00:00" max="2100-01-01T00:00">
                 </div>
                 <div class="mb-3">
                     <label for="end-time" class="form-label">End time:</label>
-                    <input bind:value={endTime} class="form-control" type="datetime-local" id="end-time"
+                    <input bind:value={endTime}
+                           class="form-control" type="datetime-local" id="end-time"
                            name="meeting-time"
                            min="1970-01-01T00:00" max="2100-01-01T00:00">
                 </div>
