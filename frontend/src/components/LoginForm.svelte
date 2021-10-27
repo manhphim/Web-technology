@@ -23,8 +23,6 @@
             } else {
                 router.redirect('/home/categories/all');
             }
-        } else {
-            alert('Something went wrong with your credentials!');
         }
     };
 
@@ -45,7 +43,7 @@
             return await response;
         } catch (e) {
             console.log(e);
-            alert('Something went wrong!');
+            document.querySelector('.error-message').style.display = "block";
         }
     }
 
@@ -71,6 +69,8 @@
     <div class="login__container">
         <form id="login" action="" on:submit|preventDefault = {handleSubmit}>
             <h1 style="text-align:center; margin: 5rem auto;">Login</h1>
+
+            <p class="error-message text-danger">Username or password is incorrect!</p>
 
 			<div class="form__control">
                 <input type="text" placeholder="Enter Username" name="uname" id="username" bind:value={username} required>
@@ -103,6 +103,10 @@
         overflow-y: hidden;
         overflow-x: hidden;
         font-family: 'Montserrat', sans-serif;
+    }
+
+    .error-message {
+        display: none;
     }
 
     .background__image {

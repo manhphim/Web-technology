@@ -14,6 +14,7 @@ const login = (username, password) => {
             const result = bcrypt.compareSync(password, user.password);
             if (result) {
                 return jwt.sign({
+                    id: user.id,
                     username: user.username,
                     roles: user.roles
                 }, user.secret)

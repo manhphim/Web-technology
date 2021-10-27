@@ -125,7 +125,7 @@
 </script>
 
 <Navbar />
-<div class="row mt-5">
+<div class="row mt-5 justify-content-center">
     {#if credential.token == ""}
         <div class="row d-flex justify-content-center">
             <div class="col-sm-9 border py-3">
@@ -133,7 +133,7 @@
             </div>
         </div>
     {/if}
-    <div class="left_column col-lg-6 mt-5">
+    <div class="col-lg-6 mt-5">
         {#await getOneAuction()}
             <h1>Item loading...</h1>
         {:then auction}
@@ -149,7 +149,7 @@
         {/await}
     </div>
 
-    <div class="right_column col-lg-6 mt-5">
+    <div class="col-lg-6 mt-5">
         <div class="form_container container-md">
             <div class="text-center time__container border px-5 py-3">
                 <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
@@ -186,6 +186,23 @@
                 {/if}
         </div>
     </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <h1 class="ms-4">Description</h1>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body fs-5 ms-4">
+                        {auction.details}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <Footer/>
 
@@ -204,6 +221,7 @@
     h1 {
         font-size: 35px;
         font-weight: bolder;
+        margin-bottom: 0;
     }
 
     h2, h3 {
@@ -231,7 +249,7 @@
         margin: 0;
     }
 
-    button {
+    form button {
         background: #a67c00;
         color: white;
     }
@@ -253,5 +271,10 @@
     p {
         word-spacing: 1px;
     }
+
+    .accordion button:active {
+        border-style: outset;
+    }
+
 
 </style>

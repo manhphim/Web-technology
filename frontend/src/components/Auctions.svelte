@@ -45,8 +45,8 @@
     </div>
 
     <!--filters-->
-    <div class="col-sm-12 d-flex justify-content-evenly mx-auto my-auto">
-        <form class="d-flex flex-row align-items-center justify-content-center">
+    <div class="col-sm-12 d-flex justify-content-evenly flex-wrap mx-auto my-auto">
+        <form class="d-flex flex-sm-row align-items-center justify-content-center">
             <select class="form-select mx-2" aria-label="Default select example">
                 <option selected>Status</option>
                 <option value="1">Live</option>
@@ -129,6 +129,9 @@
         color: #000;
     }
 
+    #search-wrapper {
+        width: 30%;
+    }
     @media screen and (max-width: 992px) {
         .auctions-container {
             grid-template-columns: repeat(2, 1fr);
@@ -138,6 +141,13 @@
     @media screen and (max-width: 768px) {
         .auctions-container {
             grid-template-columns: repeat(1, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        #search-wrapper {
+            width: 75%;
+            margin-top: 20px;
         }
     }
 </style>
