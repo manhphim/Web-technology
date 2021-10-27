@@ -50,8 +50,8 @@
                 image: imageUrl,
                 category: selectedCategory,
                 status: 'Closed', //FIXME ??
-                startTime: startTime,
-                endTime: endTime,
+                startTime: output(startTime),
+                endTime: output(endTime),
                 details: details,
                 startingPrice: price
             })
@@ -132,7 +132,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="meeting-time" class="form-label">Start time:</label>
-                    <input value={startTime}
+                    <input bind:value={startTime}
                            class="form-control" type="datetime-local" id="meeting-time"
                            name="meeting-time"
                            min="1970-01-01T00:00" max="2100-01-01T00:00">
