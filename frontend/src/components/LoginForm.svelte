@@ -10,34 +10,37 @@
     });
 
     const handleSubmit = async () => {
-        await submit();
-
-        if (user.roles.includes('admin')) {
-            router.redirect('/admin');
-        } else {
-            router.redirect('/home/categories/all');
+        const response = await submit();
+        if (response) {
+            if (response['status'] === 200 && user.roles.includes('admin')) {
+                router.redirect('/admin');
+            } else {
+                router.redirect('/home/categories/all');
+            }
         }
     };
 
     let username = '';
     let password = '';
     async function submit() {
-        const response = await fetch('http://localhost:3000/credentials', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({username, password})
-        });
+        try {
+            const response = await fetch('http://localhost:3000/credentials', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({username, password})
+            });
 
-        if (!response.ok) {
-            alert('Something went wrong with your credentials!');
-            throw new Error(response.statusText);
+            const data=await response.json();
+            $tokenStore=data.token;
+            $userStore=data.user;
+            console.log($userStore);
+            return await response;
+        } catch (e) {
+            console.log(e);
+            document.querySelector('.error-message').style.display = "block";
         }
-
-        const data = await response.json();
-        $tokenStore = data.token;
-        $userStore = data.user;
     }
 </script>
 
@@ -52,6 +55,8 @@
     <div class="login__container">
         <form id="login" action="" on:submit|preventDefault = {handleSubmit}>
             <h1 style="text-align:center; margin: 5rem auto;">Login</h1>
+
+            <p class="error-message text-danger">Username or password is incorrect!</p>
 
 			<div class="form__control">
                 <input type="text" placeholder="Enter Username" name="uname" id="username" bind:value={username} required>
@@ -84,6 +89,10 @@
         overflow-y: hidden;
         overflow-x: hidden;
         font-family: 'Montserrat', sans-serif;
+    }
+
+    .error-message {
+        display: none;
     }
 
     .background__image {

@@ -4,7 +4,7 @@
     import {onMount} from "svelte";
     import tokenStore from "../stores/token";
     import AuctionBids from "./AuctionBids.svelte";
-    import token from "../stores/token";
+    import userStore from "../stores/user";
 
     export let params;
     let username = 'melissa';
@@ -21,12 +21,14 @@
     let hours = '';
     let minutes = '';
     let seconds = '';
+
+    let credential = {};
     onMount(async () => {
         auction = await getOneAuction();
         bids = await getBidsByAuctionId();
         lastBid = bids.at(-1).price;
-        console.log($tokenStore);
-
+        tokenStore.subscribe(value => credential = value);
+        console.log(credential);
         let startTime = new Date(auction.startTime).getTime();
         let endTime = new Date(auction.endTime).getTime();
         let now = new Date().getTime();
@@ -123,18 +125,20 @@
 </script>
 
 <Navbar />
-<div class="row">
-    {#if $tokenStore == ""}
-        <div class="border">
-            <p>User need to <a>Sign up</a> or <a>Create an account</a> before bidding.</p>
+<div class="row mt-5 justify-content-center">
+    {#if credential.token == ""}
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-9 border py-3">
+                <span class="align-middle px-3 fs-5">User need to <a href="/">Sign in</a> or <a href="/register">Create an account</a> before bidding.</span>
+            </div>
         </div>
     {/if}
-    <div class="left_column col-sm-6">
+    <div class="col-lg-6 mt-5">
         {#await getOneAuction()}
             <h1>Item loading...</h1>
         {:then auction}
             <div class="item_name">
-                <h1>{auction.item}</h1>
+                <h1 class="display-2">{auction.item}</h1>
             </div>
             <div class="auction_image">
                 <img src={auction.image} alt="Auction image">
@@ -145,8 +149,8 @@
         {/await}
     </div>
 
-    <div class="right_column col-sm-6">
-        <div class="form_container">
+    <div class="col-lg-6 mt-5">
+        <div class="form_container container-md">
             <div class="text-center time__container border px-5 py-3">
                 <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
             </div>
@@ -182,24 +186,31 @@
                 {/if}
         </div>
     </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <h1 class="ms-4">Description</h1>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body fs-5 ms-4">
+                        {auction.details}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <Footer/>
 
 <style>
     * {
-        font-family: Andale Mono, monospace;
+        font-family: 'Abhaya Libre', serif;
     }
 
-
-    .left_column, .right_column {
-        height: 100%;
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 100px;
-    }
 
     .item_name {
         width: 100%;
@@ -210,6 +221,7 @@
     h1 {
         font-size: 35px;
         font-weight: bolder;
+        margin-bottom: 0;
     }
 
     h2, h3 {
@@ -233,18 +245,36 @@
         padding: 15px !important;
     }
 
-    .form_container {
-        width: 70%;
-        height: 70%;
-    }
-
     .fw-medium {
         margin: 0;
     }
 
-    button {
+    form button {
         background: #a67c00;
         color: white;
     }
+
+    @media screen and (min-width: 992px) {
+        .form_container {
+            width: 75%;
+        }
+    }
+
+    a {
+        color: #BB8700;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
+    p {
+        word-spacing: 1px;
+    }
+
+    .accordion button:active {
+        border-style: outset;
+    }
+
 
 </style>

@@ -19,10 +19,10 @@ POST http://{{host}}:{{port}}/users
 Content-Type: application/json
 
 {
-  "id": 4,
   "username" : "melissa123",
   "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
-  "secret": "uuidv4()"
+  "secret": "uuidv4()",
+  "roles": ["user"]
 }
 
 > {%
@@ -36,10 +36,10 @@ PUT http://{{host}}:{{port}}/users/1
 Content-Type: application/json
 
 {
-  "id": 1,
   "username" : "minhpham123",
   "password" : "$2a$10$VJmh3WivEnKC/En9.KiPXOJqPxEu4QqWvJ0/e4XjQMWMHqyImsUUK",
-  "secret": "uuidv4()"
+  "secret": "uuidv4()",
+  "roles": ["admin","user"]
 }
 
 > {%

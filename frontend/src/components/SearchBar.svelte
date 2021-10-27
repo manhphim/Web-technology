@@ -2,8 +2,10 @@
     import { text } from "../stores/search.js";
 </script>
 
-<div id="search-container">
+<div class="form-group has-search">
+    <span class="fa fa-search form-control-feedback"></span>
     <input type="text"
+           class="form-control"
            id="search-field"
            placeholder="Search something"
            autocomplete="off"
@@ -11,20 +13,22 @@
     />
 </div>
 
+
+
 <style>
-    #search-container {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        margin: 0 0 0 10px;
+    .has-search .form-control {
+        padding-left: 2.375rem;
     }
 
-    #search-field {
-        width: 100%;
-        font-size: 1.3rem;
-        border: 1px solid gray;
-        border-radius: 5px;
-        padding: 8px;
-        margin: 0 10px 0;
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        color: #999999;
     }
 </style>
