@@ -20,5 +20,9 @@
     {/if}
 </div>
 <style>
+    * {
+        font-family: 'Abhaya Libre', serif;
+        font-size: 20px;
+    }
 
 </style>

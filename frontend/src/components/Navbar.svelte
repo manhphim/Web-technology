@@ -24,9 +24,6 @@
         </a>
 
         <!-------------SEARCH BAR---------------->
-        <div id="search-wrapper">
-            <SearchBar />
-        </div>
 
         <div class="d-flex mb-2">
             {#if $tokenStore.token !== ""}
@@ -54,6 +51,9 @@
 </nav>
 
 <style>
+    * {
+        font-family: 'Abhaya Libre', serif;
+    }
     .navbar-container {
         display: flex;
         align-items: center;
