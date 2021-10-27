@@ -49,9 +49,9 @@
                 item: name,
                 image: imageUrl,
                 category: selectedCategory,
-                status: 'Closed', //FIXME ??
                 startTime: output(startTime),
                 endTime: output(endTime),
+                status: (isAfterToday(startTime) ? 'Closed' : 'Open'), //If the starting date is later than today, than the auction is closed
                 details: details,
                 startingPrice: price
             })
@@ -75,6 +75,10 @@
 
     function output(date) {
         if (date) return date.replace("T", " ");
+    }
+
+    function isAfterToday(date) {
+        return new Date().getTime() < Date.parse(date);
     }
 </script>
 
