@@ -53,7 +53,7 @@ router.put('/:id', isLoggedIn, isAdmin, (req, res) => {
     const index = auctions.findIndex((auction) => auction.id == id);
 
     if (index !== -1) {
-        auctions[index] = auctionUpdated;
+        auctions[index] = {'id': parseInt(id), ...auctionUpdated};
 
         res
             .status(StatusCodes.OK)
