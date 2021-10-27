@@ -7,8 +7,6 @@
         $tokenStore = "";
         router.redirect('/');
     }
-
-
 </script>
 
 <!--<svelte:head>-->

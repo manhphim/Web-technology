@@ -2,6 +2,8 @@
     import {onMount} from "svelte";
     import NewAuctionModal from "./NewAuctionModal.svelte";
     import DeleteModal from "./DeleteModal.svelte";
+    import tokenStore from "../stores/token";
+    import router from "page";
 
     let auctionId;
     let keys = []
@@ -38,6 +40,11 @@
             throw new Error(response.statusText);
         }
     }
+
+    function handleLogOut() {
+        $tokenStore = "";
+        router.redirect('/');
+    }
 </script>
 
 <svelte:head>
@@ -45,6 +52,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </svelte:head>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home/categories/all">
+            <img class="img-fluid" src="/images/logo.png" alt="logo" height="100" width="300">
+        </a>
+
+        <div class="d-flex mb-2">
+            {#if $tokenStore.token !== ""}
+                <button on:click={handleLogOut} type="button" class="btn btn-warning btn-lg">Log out</button>
+            {:else}
+                <button on:click={() => router.redirect('/register')} type="button" class="btn btn-outline-warning btn-lg mx-3">Sign up</button>
+                <button on:click={() => router.redirect('/')} type="button" class="btn btn-warning btn-lg">Login</button>
+            {/if}
+        </div>
+    </div>
+</nav>
 <body>
     <div class="bg-image background__image">
         <div class="background-overlay"></div>
@@ -122,7 +146,6 @@
         opacity: 0.8;
     }
 
-
     .main_body {
         background: #fff;
         position: absolute;
@@ -144,6 +167,7 @@
     td button {
         width: 100px;
     }
+
     table {
         width: 70%;
         height: 800px;
