@@ -154,8 +154,8 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-warning" data-bs-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>
