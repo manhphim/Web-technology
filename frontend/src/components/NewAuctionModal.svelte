@@ -7,6 +7,7 @@
     export let getAllAuctions;
 
     let name;
+    let imageUrl;
     let details;
     let price;
     let startTime;
@@ -20,6 +21,7 @@
 
         let auction = await response.json();
         name = auction.item;
+        imageUrl = auction.image;
         details = auction.details;
         price = auction.startPrice;
         selectedCategory = auction.category;
@@ -45,6 +47,7 @@
             },
             body: JSON.stringify({
                 item: name,
+                image: imageUrl,
                 category: selectedCategory,
                 status: 'Closed', //FIXME ??
                 startTime: startTime,
@@ -96,6 +99,15 @@
                            class="form-control"
                            id="item-name"
                            placeholder="Enter name"
+                           name="">
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="item-image" class="form-label">Image url:</label>
+                    <input bind:value={imageUrl}
+                           type="text"
+                           class="form-control"
+                           id="item-image"
+                           placeholder="Enter image url"
                            name="">
                 </div>
                 <div class="mb-3">

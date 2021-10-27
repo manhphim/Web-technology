@@ -78,7 +78,7 @@
                         <tr>
                             {#each Object.entries(auction) as [key, value]}
                                 {#if key === 'image'}
-                                    <td><img src={value} alt="" style="width:50px; height:50px;"></td>
+                                    <td><img src={value} alt="image" style="width:50px; height:50px;"></td>
                                 {:else}
                                     <td>{value}</td>
                                 {/if}
