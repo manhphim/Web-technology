@@ -167,7 +167,7 @@ const auctions = [
         image: 'http://localhost:3000/images/autographed-sericel.jpg',
         category : 'arts',
         status : 'Closed',
-        startTime : 'J2022-01-31 8:00',
+        startTime : '2022-01-31 8:00',
         endTime : '2022-02-19 15:00',
         details : 'Autographed Warner Bros Sylvester Hippetys Mummy sericel',
         startPrice : '142'
