@@ -4,7 +4,6 @@
     import {onMount} from "svelte";
     import tokenStore from "../stores/token";
     import AuctionBids from "./AuctionBids.svelte";
-    import userStore from "../stores/user";
     import Countdown from "./Countdown.svelte";
 
     export let params = '';
@@ -19,7 +18,9 @@
     let startPrice = '';
     let lastBid = '';
     let currentBid;
-    $: currentBid = lastBid;
+    $: console.log('----last bid', lastBid)
+    $: console.log('----bids', bids);
+    $: lastBid, currentBid = lastBid;
     let days = '';
     let hours = '';
     let minutes = '';
@@ -27,18 +28,15 @@
 
     let credential = {};
     onMount(async () => {
-        auction = await getOneAuction();
-        bids = await getBidsByAuctionId();
-        lastBid = bids.at(-1).price;
         tokenStore.subscribe(value => credential = value);
-        console.log(credential);
+
+        auction = await getOneAuction();
+        await getBidsByAuctionId();
 
         isClosed = auction.status === 'Closed';
         startTime = auction.startTime;
         endTime = auction.endTime;
         auction.status = isClosed ? 'Closed' : 'Opened';
-        // TODO: If the auction status changes, do we update the data??
-        // auction = await updateAuction();
     })
 
     async function getOneAuction() {
@@ -47,21 +45,9 @@
         return handleErrors(response).json();
     }
 
-    async function updateAuction() {
-        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({auction})
-        });
-
-        return handleErrors(response).json();
-    }
-
-    let isValid = true;
     let time;
-    function addBid() {
+    let isValid = true;
+    async function addBid() {
         let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         let timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -69,11 +55,7 @@
 
         isValid = validateBid();
         if (isValid) {
-            lastBid = currentBid;
-            let price = lastBid;
-            bids.push({username, time, price});
-            bids = bids;
-            postBid();
+            await postBid();
         }
     }
 
@@ -83,10 +65,15 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify({username, auctionId, time, lastBid})
+            body:JSON.stringify({
+                username: username,
+                auctionId: auctionId,
+                time: time,
+                price: currentBid})
         });
 
-        return handleErrors(response);
+        handleErrors(response);
+        await getBidsByAuctionId();
     }
 
     function validateBid() {
@@ -102,12 +89,16 @@
     }
 
     async function getBidsByAuctionId() {
+        console.log('in get bids by auction')
         const response = await fetch(`http://localhost:3000/bids?auctionId=${auctionId}`);
 
         if (!response.ok) {
             throw new Error(response.statusText);
         }
-        return await response.json();
+        bids = await response.json();
+        if (bids.length > 0) {
+            lastBid = bids.at(-1).price;
+        }
     }
 </script>
 
@@ -159,7 +150,7 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
                             <input value={currentBid} on:input={e => currentBid = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                            <button on:click={() => {addBid()}} type="button" class="btn">Place bid</button>
+                            <button on:click={async () => {await addBid()}} type="button" class="btn">Place bid</button>
                             {#if !isValid}
                                 <small>Bid must be higher than the last price!</small>
                             {/if}
@@ -167,7 +158,7 @@
                     </div>
                 {/if}
             </form>
-                {#if bids.length === 1} <!-- the first "bid" is the start price -->
+                {#if bids.length === 0}
                     <div class="text-center px-5 py-3 border">
                         <span class="fs-4 fw-medium">No bids placed.</span>
                     </div>
