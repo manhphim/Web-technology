@@ -129,7 +129,7 @@
 
     .auction-item {
         font-family: 'Abhaya Libre', serif;
-        font-size: 28px;
+        font-size: 23px;
         font-weight: normal;
         margin: 0 0 10px 0;
         height: 30%;
