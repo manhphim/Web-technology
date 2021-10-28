@@ -5,12 +5,15 @@
     import tokenStore from "../stores/token";
     import AuctionBids from "./AuctionBids.svelte";
     import userStore from "../stores/user";
+    import Countdown from "./Countdown.svelte";
 
-    export let params;
-    let username = 'melissa';
+    export let params = '';
+    let username = 'melissa'; // FIXME
 
     let auction = {};
     let auctionId = params.id;
+    let startTime;
+    let endTime;
     let isClosed = true;
     let bids = [];
     let startPrice = '';
@@ -29,26 +32,10 @@
         lastBid = bids.at(-1).price;
         tokenStore.subscribe(value => credential = value);
         console.log(credential);
-        let startTime = new Date(auction.startTime).getTime();
-        let endTime = new Date(auction.endTime).getTime();
-        let now = new Date().getTime();
-        if (now > startTime && now < endTime) {
-            isClosed = false;
-            const x = setInterval(() => {
-                now = new Date().getTime();
-                let timeLeft = endTime - now;
-                days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-                if (timeLeft < 0) {
-                    clearInterval(x);
-                    isClosed = true;
-                }
-            }, 1000);
-        }
-
+        isClosed = auction.status === 'Closed';
+        startTime = auction.startTime;
+        endTime = auction.endTime;
         auction.status = isClosed ? 'Closed' : 'Opened';
         // TODO: If the auction status changes, do we update the data??
         // auction = await updateAuction();
@@ -152,7 +139,12 @@
     <div class="col-lg-6 mt-5">
         <div class="form_container container-md">
             <div class="text-center time__container border px-5 py-3">
-                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>
+                {#if isClosed}
+                    <h2>Auction closed</h2>
+                {:else}
+                    <Countdown bind:startTime bind:endTime />
+                {/if}
+<!--                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>-->
             </div>
             <div class="text-start border px-5 py-3">
                 <h3 class="fs-3 fw-medium">{isClosed ? `Start price: $${startPrice}` : `Current bid: $${lastBid}`}</h3>
@@ -275,6 +267,4 @@
     .accordion button:active {
         border-style: outset;
     }
-
-
 </style>
