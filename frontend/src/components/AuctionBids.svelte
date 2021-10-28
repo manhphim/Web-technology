@@ -3,6 +3,7 @@
 </script>
 
 <div class="table-container">
+<!--    FIXME: Is it still the first bid the start price?-->
     {#if bids.length !== 1} <!-- the first "bid" is the start price -->
         <table class="table table-borderless caption-top">
             <caption>List of bids</caption>
@@ -24,5 +25,4 @@
         font-family: 'Abhaya Libre', serif;
         font-size: 20px;
     }
-
 </style>

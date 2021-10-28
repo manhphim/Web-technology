@@ -133,7 +133,7 @@
                 {#if isClosed}
                     <h2>Auction closed</h2>
                 {:else}
-                    <Countdown bind:startTime bind:endTime />
+                    <Countdown bind:startTime bind:endTime fontSize="2rem" fontWeight="bold"/>
                 {/if}
 <!--                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>-->
             </div>

@@ -33,8 +33,8 @@
             });
 
             const data=await response.json();
-            $tokenStore=data.token;
-            $userStore=data.user;
+            $tokenStore.token =data.token;
+            $userStore = data.user;
             console.log($userStore);
             return await response;
         } catch (e) {
@@ -54,9 +54,11 @@
 <body>
     <div class="login__container">
         <form id="login" action="" on:submit|preventDefault = {handleSubmit}>
-            <h1 style="text-align:center; margin: 5rem auto;">Login</h1>
+            <div class="form-header">
+                <h1 style="text-align:center; margin: 5rem auto;">Login</h1>
+                <p class="error-message text-danger">Username or password is incorrect!</p>
+            </div>
 
-            <p class="error-message text-danger">Username or password is incorrect!</p>
 
 			<div class="form__control">
                 <input type="text" placeholder="Enter Username" name="uname" id="username" bind:value={username} required>

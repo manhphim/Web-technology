@@ -1,6 +1,9 @@
 <script>
     export let startTime = '';
     export let endTime = '';
+    export let fontSize;
+    export let fontWeight;
+
 
     startTime = getMilliseconds(startTime);
     endTime = getMilliseconds(endTime);
@@ -33,5 +36,5 @@
 </script>
 
 <div class="countdown-wrapper">
-    <p>{days}d {hours}h {minutes}m {seconds}s</p>
+    <p style="font-size: {fontSize}; font-weight: {fontWeight}; margin-bottom: 0;">{days}d {hours}h {minutes}m {seconds}s</p>
 </div>

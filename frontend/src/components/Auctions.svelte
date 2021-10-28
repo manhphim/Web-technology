@@ -1,6 +1,7 @@
 <script>
     import router from 'page';
     import { text } from "../stores/search.js";
+    import tokenStore from "../stores/token.js";
     import SearchBar from "./SearchBar.svelte";
     import Countdown from "./Countdown.svelte";
 
@@ -13,7 +14,14 @@
         if (category === "all") {
             response = await fetch('http://localhost:3000/auctions');
         } else {
-            response = await fetch(`http://localhost:3000/auctions?category=${category}`);
+            let headers = {};
+            if ($tokenStore.token) {
+                headers['Authorization'] = `Bearer ${$tokenStore.token}`
+            }
+            response = await fetch(`http://localhost:3000/auctions?category=${category}`, {
+                method: "GET",
+                headers: headers
+            });
         }
 
         if (!response.ok) {
@@ -24,13 +32,11 @@
         filteredAuctions = auctions;
     }
 
-    let searchText;
-    text.subscribe(value => searchText = value);
-    $: searchText, searchAuctions();
+    $: $text, searchAuctions();
     function searchAuctions() {
         filteredAuctions = auctions.filter(auction => {
             let item = auction.item.toLowerCase();
-            return item.includes(searchText.toLowerCase())
+            return item.includes($text.toLowerCase())
         });
     }
 

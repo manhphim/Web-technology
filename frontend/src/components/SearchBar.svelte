@@ -13,8 +13,6 @@
     />
 </div>
 
-
-
 <style>
     .has-search .form-control {
         padding-left: 2.375rem;

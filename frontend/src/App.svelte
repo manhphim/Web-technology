@@ -11,6 +11,8 @@
 	let params;
 
 	router('/', (ctx) => page = LoginForm);
+    router('/admin', (ctx) => page = AdminPage);
+    router('/register', (ctx) => page = RegisterForm);
     router('/users/:id', (ctx) =>  {
         params = ctx.params;
         page = UserDashboard
@@ -19,13 +21,10 @@
 	    params = ctx.params;
 	    page = Home;
     });
-    router('/register', (ctx) => page = RegisterForm);
     router('/auctions/:id', (ctx) => {
         params = ctx.params;
         page = AuctionPage;
     });
-    router('/admin', (ctx) => page = AdminPage);
-
 
     router.start();
 </script>
@@ -42,8 +41,9 @@
 
 <svelte:component this="{page}" {params} />
 
+<!--FIXME: can't we add this style paragraph to global css? -->
 <style>
-    *{
+    * {
         font-family: 'Abhaya Libre', serif;
     }
 </style>
