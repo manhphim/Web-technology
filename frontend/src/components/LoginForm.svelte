@@ -107,7 +107,7 @@
         display: block;
         position: absolute;
         width: 623px;
-        height: 70%;
+        height: 80%;
         z-index: 10;
         top: 50%;
         left: 50%;
