@@ -45,30 +45,32 @@
     $: selectedStatus, filterAuctions();
     $: selectedPriceRange, filterAuctions();
     function filterAuctions() {
-        let options = {
-            "1": [0, 500],
-            "2": [500, 1000],
-            "3": [1000, 50000]
-        }
-        let lowerBound;
-        let upperBound;
+        const filterByPrice = (price) => {
+            let options = {
+                "1": [0, 500],
+                "2": [500, 1000],
+                "3": [1000, 50000]
+            }
+            let lowerBound = options[selectedPriceRange][0]
+            let upperBound = options[selectedPriceRange][1]
+            
+            return price > lowerBound && price <= upperBound
+        };
+
+        const filterByStatus = (status) => {
+            return status === selectedStatus
+        };
+
+        let filterCondition;
         if (selectedStatus !== '' && selectedPriceRange !== '') {
-            lowerBound = options[selectedPriceRange][0]
-            upperBound = options[selectedPriceRange][1]
-            filteredAuctions = auctions.filter(auction => {
-                return (auction.startPrice > lowerBound && auction.startPrice <= upperBound) && auction.status === selectedStatus
-            });
+            filterCondition = (auction) => filterByPrice(auction.startPrice) && filterByStatus(auction.status);
         } else if (selectedPriceRange === '') {
-            filteredAuctions = auctions.filter(auction => {
-                return auction.status === selectedStatus
-            });
+            filterCondition = (auction) => filterByStatus(auction.status);
         } else {
-            lowerBound = options[selectedPriceRange][0]
-            upperBound = options[selectedPriceRange][1]
-            filteredAuctions = auctions.filter(auction => {
-                return auction.startPrice > lowerBound && auction.startPrice <= upperBound
-            });
+            filterCondition = (auction) => filterByPrice(auction.startPrice);
         }
+
+        filteredAuctions = auctions.filter(auction => filterCondition(auction));
     }
 
     function toCamelCase(category) {
