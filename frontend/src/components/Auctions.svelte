@@ -43,11 +43,28 @@
     let selectedStatus = '';
     $: selectedStatus, filterAuctionsByStatus();
     function filterAuctionsByStatus() {
-        if (selectedStatus !== '') {
-            filteredAuctions = auctions.filter(auction => {
-                return auction.status === selectedStatus
-            });
+        if (selectedStatus === '') return
+        filteredAuctions = auctions.filter(auction => {
+            return auction.status === selectedStatus
+        });
+    }
+
+    let selectedPriceRange = '';
+    $: selectedPriceRange, filterAuctionsByPrice();
+    function filterAuctionsByPrice() {
+        if (selectedPriceRange === '') return
+
+        let options = {
+            "1": [0, 500],
+            "2": [500, 1000],
+            "3": [1000, 50000]
         }
+
+        let lowerBound = options[selectedPriceRange][0];
+        let upperBound = options[selectedPriceRange][1];
+        filteredAuctions = auctions.filter(auction => {
+            return auction.startPrice > lowerBound && auction.startPrice <= upperBound
+        });
     }
 
     function toCamelCase(category) {
@@ -68,13 +85,13 @@
                 <option value="Open">Live</option>
                 <option value="Closed">Closed</option>
             </select>
-            <select class="form-select mx-2" aria-label="Default select example">
-                <option selected>Price</option>
-                <option value="1">$0-$5000</option>
-                <option value="2">$5000-$10000</option>
-                <option value="3">$10000-$20000</option>
+            <select bind:value={selectedPriceRange} class="form-select mx-2" aria-label="Default select example">
+                <option value="" selected disabled>Price</option>
+                <option value="1">$0-$500</option>
+                <option value="2">$500-$1000</option>
+                <option value="3">$1000-$50000</option>
             </select>
-            <button on:click={async() => {selectedStatus=''; await getAuctions()}} type="submit" class="btn btn-outline-warning mx-3">Reset</button>
+            <button on:click={async() => {selectedStatus=''; selectedPriceRange=''; await getAuctions()}} type="submit" class="btn btn-outline-warning mx-3">Reset</button>
         </div>
 
         <div id="search-wrapper">
