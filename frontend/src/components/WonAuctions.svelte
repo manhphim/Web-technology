@@ -1,6 +1,5 @@
 <script>
     import Navbar from "./Navbar.svelte";
-    import SearchBar from "./SearchBar.svelte";
     import Footer from "./Footer.svelte";
     import userStore from "../stores/user";
     import {onMount} from "svelte";
@@ -25,10 +24,6 @@
 
     console.log(wonBids);
 
-
-
-
-
     async function getAllBidsOfUser() {
         const response = await fetch(`http://localhost:3000/bids?username=${$userStore.username}`);
         if (!response.ok) {
@@ -44,7 +39,6 @@
         }
         listOfAuctionBids = await response.json();
     }
-
 </script>
 
 <Navbar/>
