@@ -41,30 +41,34 @@
     }
 
     let selectedStatus = '';
-    $: selectedStatus, filterAuctionsByStatus();
-    function filterAuctionsByStatus() {
-        if (selectedStatus === '') return
-        filteredAuctions = auctions.filter(auction => {
-            return auction.status === selectedStatus
-        });
-    }
-
     let selectedPriceRange = '';
-    $: selectedPriceRange, filterAuctionsByPrice();
-    function filterAuctionsByPrice() {
-        if (selectedPriceRange === '') return
-
+    $: selectedStatus, filterAuctions();
+    $: selectedPriceRange, filterAuctions();
+    function filterAuctions() {
         let options = {
             "1": [0, 500],
             "2": [500, 1000],
             "3": [1000, 50000]
         }
-
-        let lowerBound = options[selectedPriceRange][0];
-        let upperBound = options[selectedPriceRange][1];
-        filteredAuctions = auctions.filter(auction => {
-            return auction.startPrice > lowerBound && auction.startPrice <= upperBound
-        });
+        let lowerBound;
+        let upperBound;
+        if (selectedStatus !== '' && selectedPriceRange !== '') {
+            lowerBound = options[selectedPriceRange][0]
+            upperBound = options[selectedPriceRange][1]
+            filteredAuctions = auctions.filter(auction => {
+                return (auction.startPrice > lowerBound && auction.startPrice <= upperBound) && auction.status === selectedStatus
+            });
+        } else if (selectedPriceRange === '') {
+            filteredAuctions = auctions.filter(auction => {
+                return auction.status === selectedStatus
+            });
+        } else {
+            lowerBound = options[selectedPriceRange][0]
+            upperBound = options[selectedPriceRange][1]
+            filteredAuctions = auctions.filter(auction => {
+                return auction.startPrice > lowerBound && auction.startPrice <= upperBound
+            });
+        }
     }
 
     function toCamelCase(category) {
