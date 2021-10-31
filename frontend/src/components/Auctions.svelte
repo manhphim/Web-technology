@@ -42,8 +42,7 @@
 
     let selectedStatus = '';
     let selectedPriceRange = '';
-    $: selectedStatus, filterAuctions();
-    $: selectedPriceRange, filterAuctions();
+    $: selectedStatus, selectedPriceRange, filterAuctions();
     function filterAuctions() {
         const filterByPrice = (price) => {
             let options = {

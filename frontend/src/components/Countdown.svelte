@@ -4,7 +4,6 @@
     export let fontSize = '';
     export let fontWeight = '';
 
-
     startTime = getMilliseconds(startTime);
     endTime = getMilliseconds(endTime);
     let isClosed = true;
