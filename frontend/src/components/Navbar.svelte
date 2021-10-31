@@ -2,19 +2,16 @@
     import router from 'page';
     import tokenStore from "../stores/token";
     import userStore from '../stores/user';
-    import SearchBar from "./SearchBar.svelte";
     import {onMount} from "svelte";
 
     let user = {};
     function handleLogOut() {
         $tokenStore = "";
-        router.redirect('/');
     }
 
     onMount(async () => {
         userStore.subscribe(value => user = value);
     })
-
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -34,8 +31,8 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" on:click={() => router.redirect(`/users/${user.id}`)} href="#"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" on:click={handleLogOut} href="#"><i class="bi bi-box-arrow-right me-2"></i>Log out</a></li>
+                        <li><a class="dropdown-item" href="/users/{user.id}"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" on:click={handleLogOut} href="/"><i class="bi bi-box-arrow-right me-2"></i>Log out</a></li>
                     </ul>
                 </div>
             {:else}
@@ -49,13 +46,13 @@
 <nav class="navbar hidden-xs">
     <div class="container-fluid" style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
         <div class="navbar-container container-fluid" style="width: 80%">
-            <a class="left-links" href="" on:click={() => router.redirect('/home/categories/all')}>Auctions</a>
+            <a class="left-links" href="/home/categories/all">Auctions</a>
             <span class="divider"></span>
             <a class="right-links" href="/home/categories/instruments">Musical instruments</a>
             <a class="right-links" href="/home/categories/crafts">Crafts</a>
-            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/guns')}>Guns</a>
-            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/arts')}>Arts</a>
-            <a class="right-links" href="" on:click={() => router.redirect('/home/categories/jewelry')}>Jewelry</a>
+            <a class="right-links" href="/home/categories/guns">Guns</a>
+            <a class="right-links" href="/home/categories/arts">Arts</a>
+            <a class="right-links" href="/home/categories/jewelry">Jewelry</a>
         </div>
     </div>
 </nav>
