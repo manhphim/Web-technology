@@ -16,7 +16,6 @@
         await getAllAuctions();
 
         keys = Object.keys(auctions[1]);
-        // keys.splice(keys.indexOf('image'), 1);
 
         let categorySet = new Set();
         auctions.forEach((auction) => {
@@ -90,9 +89,9 @@
                     <th scope="col">Item</th>
                     <th scope="col">Image</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Start time</th>
                     <th scope="col">End time</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Details</th>
                     <th scope="col">Start price</th>
                 </tr>
@@ -102,7 +101,7 @@
                         <tr>
                             {#each Object.entries(auction) as [key, value]}
                                 {#if key === 'image'}
-                                    <td><img src={value} alt="image" style="width:50px; height:50px;"></td>
+                                    <td><image src={value} alt="image" style="width:50px; height:50px;"></image></td>
                                 {:else}
                                     <td>{value}</td>
                                 {/if}

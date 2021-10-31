@@ -1,9 +1,8 @@
 <script>
     export let startTime = '';
     export let endTime = '';
-    export let fontSize;
-    export let fontWeight;
-
+    export let fontSize = '';
+    export let fontWeight = '';
 
     startTime = getMilliseconds(startTime);
     endTime = getMilliseconds(endTime);

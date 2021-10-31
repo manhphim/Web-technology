@@ -87,7 +87,6 @@
             </div>
 			<div class="form__control">
                 <input bind:this = {usernameContainer} type="text" placeholder="Enter Username" name="uname" id="username" bind:value={username} required>
-
             </div>
 
             <div class="form__control">
