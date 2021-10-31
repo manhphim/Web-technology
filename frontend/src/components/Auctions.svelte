@@ -1,6 +1,6 @@
 <script>
     import router from 'page';
-    import { text } from "../stores/search.js";
+    import {text} from "../stores/search.js";
     import tokenStore from "../stores/token.js";
     import SearchBar from "./SearchBar.svelte";
     import Countdown from "./Countdown.svelte";
@@ -38,11 +38,21 @@
             let item = auction.item.toLowerCase();
             return item.includes($text.toLowerCase())
         });
+        getAuctions();
     }
 
     function toCamelCase(category) {
-        let modifiedCategory = category.replace(category.charAt(0), category.charAt(0).toUpperCase());
-        return modifiedCategory;
+        return category.replace(category.charAt(0), category.charAt(0).toUpperCase());
+    }
+
+    let selectedStatus = '';
+    $: selectedStatus, filterAuctionsByStatus();
+    function filterAuctionsByStatus() {
+        if (selectedStatus !== "") {
+            filteredAuctions = auctions.filter(auction => {
+                return auction.status === selectedStatus;
+            });
+        }
     }
 </script>
 
@@ -53,20 +63,20 @@
 
     <!--filters-->
     <div class="col-sm-12 d-flex justify-content-evenly flex-wrap mx-auto my-auto">
-        <form class="d-flex flex-sm-row align-items-center justify-content-center">
-            <select class="form-select mx-2" aria-label="Default select example">
-                <option selected>Status</option>
-                <option value="1">Live</option>
-                <option value="2">Closed</option>
+        <div class="d-flex flex-sm-row align-items-center justify-content-center">
+            <select bind:value={selectedStatus} class="form-select mx-2" aria-label="Default select example">
+                <option value="" selected disabled>Status</option>
+                <option value="Open">Live</option>
+                <option value="Closed">Closed</option>
             </select>
             <select class="form-select mx-2" aria-label="Default select example">
-                <option selected>Price</option>
+                <option value="" selected>Price</option>
                 <option value="1">$0-$5000</option>
                 <option value="2">$5000-$10000</option>
                 <option value="3">$10000-$20000</option>
             </select>
-            <button type="submit" class="btn btn-outline-warning mx-3">Confirm</button>
-        </form>
+            <button on:click={async() => {selectedStatus = ''; await getAuctions()}} class="btn btn-outline-warning mx-3">Reset</button>
+        </div>
 
         <div id="search-wrapper">
             <SearchBar />
