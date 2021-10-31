@@ -26,12 +26,12 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body d-flex flex-column">
-                <a class="left-links" href="" on:click={() => router.redirect('/home/categories/all')}>Auctions</a>
-                <a class="right-links" href="" on:click={() => router.redirect('/home/categories/instruments')}>Musical instruments</a>
-                <a class="right-links" href="" on:click={() => router.redirect('/home/categories/crafts')}>Crafts</a>
-                <a class="right-links" href="" on:click={() => router.redirect('/home/categories/guns')}>Guns</a>
-                <a class="right-links" href="" on:click={() => router.redirect('/home/categories/arts')}>Arts</a>
-                <a class="right-links" href="" on:click={() => router.redirect('/home/categories/jewelry')}>Jewelry</a>
+                <a class="left-links" href="/home/categories/all">Auctions</a>
+                <a class="right-links" href="/home/categories/instruments">Musical instruments</a>
+                <a class="right-links" href="/home/categories/crafts">Crafts</a>
+                <a class="right-links" href="/home/categories/guns">Guns</a>
+                <a class="right-links" href="/home/categories/arts">Arts</a>
+                <a class="right-links" href="/home/categories/jewelry">Jewelry</a>
             </div>
         </div>
         <a class="navbar-brand col-sm-5" href="/home/categories/all">
@@ -49,9 +49,8 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" on:click={() => router.redirect(`/users/${user.id}`)} href="#"><i class="bi bi-person-lines-fill me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" on:click={() => router.redirect(`/users/${user.id}/bids`)} href="#"><i class="bi bi-trophy-fill me-2"></i>Won bids</a></li>
-                        <li><a class="dropdown-item" on:click={handleLogOut} href="#"><i class="bi bi-box-arrow-right me-2"></i>Log out</a></li>
+                        <li><a class="dropdown-item" href="/users/{user.username}"><i class="bi bi-trophy-fill me-2"></i>Won auctions</a></li>
+                        <li><a class="dropdown-item" on:click={handleLogOut} href="/"><i class="bi bi-box-arrow-right me-2"></i>Log out</a></li>
                     </ul>
                 </div>
             {:else}

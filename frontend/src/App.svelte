@@ -5,8 +5,7 @@
 	import Home from '../src/components/Home.svelte'
 	import AuctionPage from './components/AuctionPage.svelte'
     import AdminPage  from "./components/AdminPage.svelte";
-    import UserDashboard from "./components/UserDashboard.svelte";
-    import WonBids from "./components/WonBids.svelte";
+    import WonAuctions from "./components/WonAuctions.svelte";
 
 	let page;
 	let params;
@@ -14,10 +13,6 @@
 	router('/', (ctx) => page = LoginForm);
     router('/admin', (ctx) => page = AdminPage);
     router('/register', (ctx) => page = RegisterForm);
-    router('/users/:id', (ctx) =>  {
-        params = ctx.params;
-        page = UserDashboard;
-    })
 	router('/home/categories/:category', (ctx) => {
 	    params = ctx.params;
 	    page = Home;
@@ -26,10 +21,10 @@
         params = ctx.params;
         page = AuctionPage;
     });
-    router('/users/:id/bids', (ctx) => {
+    router('/users/:username', (ctx) => {
         params = ctx.params;
-        page = WonBids
-    })
+        page = WonAuctions
+    });
 
     router.start();
 </script>
