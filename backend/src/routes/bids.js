@@ -36,7 +36,7 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.post('', isLoggedIn, (req, res) => {
+router.post('', (req, res) => {
     const bid = req.body;
     const bidWithId = {id: bids.length +1, ...bid};
     bids.push(bidWithId);
@@ -46,7 +46,7 @@ router.post('', isLoggedIn, (req, res) => {
 
 });
 
-router.delete('/:id', isLoggedIn, (req, res) => {
+router.delete('/:id', (req, res) => {
     const { id } = req.params;
     const bid = bids.find((bid) => bid.id == id);
     if (bid) {

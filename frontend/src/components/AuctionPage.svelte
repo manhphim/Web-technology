@@ -3,11 +3,12 @@
     import Footer from './Footer.svelte'
     import {onMount} from "svelte";
     import tokenStore from "../stores/token";
+    import userStore from '../stores/user';
     import AuctionBids from "./AuctionBids.svelte";
     import Countdown from "./Countdown.svelte";
 
     export let params = '';
-    let username = 'melissa'; // FIXME
+    let username = $userStore.username;
 
     let auction = {};
     let auctionId = params.id;
@@ -18,8 +19,6 @@
     let startPrice = '';
     let lastBid = '';
     let currentBid;
-    $: console.log('----last bid', lastBid)
-    $: console.log('----bids', bids);
     $: lastBid, currentBid = lastBid;
     let days = '';
     let hours = '';
@@ -88,8 +87,7 @@
         return response;
     }
 
-    async function getBidsByAuctionId() {
-        console.log('in get bids by auction')
+    export async function getBidsByAuctionId() {
         const response = await fetch(`http://localhost:3000/bids?auctionId=${auctionId}`);
 
         if (!response.ok) {
@@ -135,7 +133,6 @@
                 {:else}
                     <Countdown bind:startTime bind:endTime fontSize="2rem" fontWeight="bold"/>
                 {/if}
-<!--                <h2 class="fs-3 fw-bold">{isClosed ? 'Auction closed' : `Closes in: ${days} days ${hours}hr ${minutes}m ${seconds}s`}</h2>-->
             </div>
             <div class="text-start border px-5 py-3">
                 <h3 class="fs-3 fw-medium">{isClosed ? `Start price: $${startPrice}` : `Current bid: $${lastBid}`}</h3>
@@ -164,7 +161,7 @@
                     </div>
                 {:else}
                     <div class="px-5 py-3 border">
-                        <AuctionBids bind:bids = {bids} />
+                        <AuctionBids bind:bids = {bids} getBidsByAuctionId={getBidsByAuctionId} />
                     </div>
                 {/if}
         </div>

@@ -41,7 +41,6 @@
 
 <svelte:component this="{page}" {params} />
 
-<!--FIXME: can't we add this style paragraph to global css? -->
 <style>
     * {
         font-family: 'Abhaya Libre', serif;
