@@ -157,14 +157,16 @@
                     <h3>Come back later!</h3>
                 {:else}
                     <div class="mb-3">
-                        <label for="bid-directly" class="form-label">Bid directly</label>
+                        <label for="bid-directly" class="form-label fs-4">Bid directly</label>
+                        {#if !isValid}
+                            <div>
+                                <small class="text-danger fs-5">Bid must be higher than the last price!</small>
+                            </div>
+                        {/if}
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
                             <input value={currentBid} on:input={e => currentBid = e.target.value} id="bid-directly" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                             <button on:click={async () => {await addBid()}} type="button" class="btn">Place bid</button>
-                            {#if !isValid}
-                                <small>Bid must be higher than the last price!</small>
-                            {/if}
                         </div>
                     </div>
                 {/if}

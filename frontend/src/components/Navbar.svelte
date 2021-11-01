@@ -6,7 +6,7 @@
 
     let user = {};
     function handleLogOut() {
-        $tokenStore = "";
+        $tokenStore.token = "";
     }
 
     onMount(async () => {

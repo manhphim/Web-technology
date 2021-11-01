@@ -7,6 +7,7 @@
     let wonAuctions = [];
     onMount(async () => {
         await getWonAuctions();
+        console.log(wonAuctions);
     })
 
     async function getWonAuctions() {
@@ -52,11 +53,10 @@
         List of auctions won
     </div>
 
-    <table class="table table-borderless col-sm-9">
+    <table class="table col-sm-9 text-center w-75 overflow-auto h-75">
         <thead class="text-center">
             <tr>
                 <th scope="col">Item</th>
-                <th scope="col">Image</th>
                 <th scope="col">Category</th>
             </tr>
         </thead>
@@ -64,7 +64,6 @@
             {#each wonAuctions as auction (auction.id)}
                 <tr>
                     <td>{auction.item}</td>
-                    <td><image src={auction.image} alt="image" style="width:50px; height:50px;"></image></td>
                     <td>{auction.category}</td>
                 </tr>
             {/each}
