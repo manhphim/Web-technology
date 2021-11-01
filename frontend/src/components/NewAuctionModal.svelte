@@ -32,39 +32,43 @@
     }
 
     async function handleFormSubmit() {
-        let method = 'POST';
-        let url = 'http://localhost:3000/auctions/';
-        if (modalTitle === 'Edit auction') {
-            method = 'PUT';
-            url = url + auctionId;
+        try {
+            let method = 'POST';
+            let url = 'http://localhost:3000/auctions/';
+            if (modalTitle === 'Edit auction') {
+                method = 'PUT';
+                url = url + auctionId;
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${$tokenStore}`
+                },
+                body: JSON.stringify({
+                    item: name,
+                    image: imageUrl,
+                    category: selectedCategory,
+                    startTime: output(startTime),
+                    endTime: output(endTime),
+                    status: (isAfterToday(startTime) ? 'Closed' : 'Open'), //If the starting date is later than today, than the auction is closed
+                    details: details,
+                    startingPrice: price
+                })
+            });
+            handleErrors(response);
+
+            await getAllAuctions();
+            return await response.json();
+        } catch (e) {
+            console.log(e);
         }
-
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${$tokenStore}`
-            },
-            body: JSON.stringify({
-                item: name,
-                image: imageUrl,
-                category: selectedCategory,
-                startTime: output(startTime),
-                endTime: output(endTime),
-                status: (isAfterToday(startTime) ? 'Closed' : 'Open'), //If the starting date is later than today, than the auction is closed
-                details: details,
-                startingPrice: price
-            })
-        });
-        handleErrors(response);
-
-        await getAllAuctions();
-        return await response.json();
     }
 
     function handleErrors(response) {
         if (!response.ok) {
-            alert('Something went wrong!');
+            alert('Cannot submit new auction!');
             throw new Error(response.statusText);
         }
     }
@@ -104,6 +108,7 @@
                            id="item-name"
                            placeholder="Enter name"
                            name="">
+                           required
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="item-image" class="form-label">Image url:</label>
@@ -113,6 +118,7 @@
                            id="item-image"
                            placeholder="Enter image url"
                            name="">
+                           required
                 </div>
                 <div class="mb-3">
                     <label for="item-details" class="form-label">Details</label>
@@ -122,6 +128,7 @@
                            id="item-details"
                            placeholder="Enter details"
                            name="">
+                           required
                 </div>
                 <div class="mb-3">
                     <label for="item-price" class="form-label">Start price</label>
@@ -132,6 +139,7 @@
                                class="form-control"
                                id="item-price"
                                aria-label="Amount (to the nearest dollar)">
+                               required
                     </div>
                 </div>
                 <div class="mb-3">
@@ -140,6 +148,7 @@
                            class="form-control" type="datetime-local" id="meeting-time"
                            name="meeting-time"
                            min="1970-01-01T00:00" max="2100-01-01T00:00">
+                           required
                 </div>
                 <div class="mb-3">
                     <label for="end-time" class="form-label">End time:</label>
@@ -147,11 +156,12 @@
                            class="form-control" type="datetime-local" id="end-time"
                            name="meeting-time"
                            min="1970-01-01T00:00" max="2100-01-01T00:00">
+                           required
                 </div>
                 <div class="mb-3">
                     <label for="category" class="form-label">Choose a category:</label>
 
-                    <select id="category" class="form-select" aria-label="Default select example" bind:value={selectedCategory}>
+                    <select id="category" class="form-select" aria-label="Default select example" bind:value={selectedCategory} required>
                         {#each categories as category}
                             <option type="checkbox" value={category}>{category}</option>
                         {/each}

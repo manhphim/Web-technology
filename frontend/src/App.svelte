@@ -26,14 +26,12 @@
         params = ctx.params;
         page = AuctionPage;
     });
-<<<<<<< HEAD
-=======
+
     router('/admin', (ctx) => page = AdminPage);
     router('/users/:id/bids', (ctx) => {
         params = ctx.params;
         page = WonBids
     })
->>>>>>> minh
 
     router.start();
 </script>

@@ -17,7 +17,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-sm d-flex flex-sm-row justify-content-center">
         <a class="text-decoration-none d-block d-md-none" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-            <i class="bi bi-list text-black"></i>
+            <i class="bi bi-list text-black fs-2"></i>
         </a>
 
         <div class="offcanvas offcanvas-start d-block d-md-none" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -129,6 +129,10 @@
 
     .dropdown i {
         color: #D39B2C;
+    }
+
+    .offcanvas-body a:hover {
+        background: #dddddd;
     }
 
     @media (min-width: 1200px) {

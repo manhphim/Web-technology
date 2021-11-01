@@ -10,26 +10,30 @@
     let auctions = [];
     let filteredAuctions = [];
     async function getAuctions() {
-        let response;
-        if (category === "all") {
-            response = await fetch('http://localhost:3000/auctions');
-        } else {
-            let headers = {};
-            if ($tokenStore.token) {
-                headers['Authorization'] = `Bearer ${$tokenStore.token}`
+        try {
+            let response;
+            if (category === "all") {
+                response = await fetch('http://localhost:3000/auctions');
+            } else {
+                let headers = {};
+                if ($tokenStore.token) {
+                    headers['Authorization'] = `Bearer ${$tokenStore.token}`
+                }
+                response = await fetch(`http://localhost:3000/auctions?category=${category}`, {
+                    method: "GET",
+                    headers: headers
+                });
             }
-            response = await fetch(`http://localhost:3000/auctions?category=${category}`, {
-                method: "GET",
-                headers: headers
-            });
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            auctions = await response.json();
+            filteredAuctions = auctions;
+        } catch (e) {
+            console.log(e);
         }
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-
-        auctions = await response.json();
-        filteredAuctions = auctions;
     }
 
     $: $text, searchAuctions();
@@ -38,7 +42,6 @@
             let item = auction.item.toLowerCase();
             return item.includes($text.toLowerCase())
         });
-        getAuctions();
     }
 
     let selectedStatus = '';
