@@ -5,22 +5,25 @@
     export let getAllAuctions;
 
     async function deleteAuction() {
-        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`,{
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${$tokenStore}`
-            }
-        });
-        handleErrors(response);
-
-        await getAllAuctions();
-        return response;
+        try {
+            const response = await fetch(`http://localhost:3000/auctions/${auctionId}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${$tokenStore.token}`
+                }
+            });
+            handleErrors(response);
+            await getAllAuctions();
+            return response;
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function handleErrors(response) {
         if (!response.ok) {
-            alert('Something went wrong!');
+            alert('Cannot delete the auction');
             throw new Error(response.statusText);
         }
     }

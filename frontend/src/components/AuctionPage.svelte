@@ -40,9 +40,12 @@
     })
 
     async function getOneAuction() {
-        const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
-
-        return handleErrors(response).json();
+        try {
+            const response = await fetch(`http://localhost:3000/auctions/${auctionId}`);
+            return handleErrors(response).json();
+        } catch (e) {
+            alert('Cannot find that auction');
+        }
     }
 
     let time;
@@ -60,20 +63,24 @@
     }
 
     async function postBid() {
-        const response = await fetch('http://localhost:3000/bids', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-                username: username,
-                auctionId: auctionId,
-                time: time,
-                price: currentBid})
-        });
+        try {
+            const response = await fetch('http://localhost:3000/bids', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    username: username,
+                    auctionId: auctionId,
+                    time: time,
+                    price: currentBid})
+            });
+            handleErrors(response);
+            await getBidsByAuctionId();
+        } catch (e) {
+            console.log(e);
+        }
 
-        handleErrors(response);
-        await getBidsByAuctionId();
     }
 
     function validateBid() {
@@ -89,15 +96,19 @@
     }
 
     async function getBidsByAuctionId() {
-        console.log('in get bids by auction')
-        const response = await fetch(`http://localhost:3000/bids?auctionId=${auctionId}`);
+        try {
+            console.log('in get bids by auction')
+            const response = await fetch(`http://localhost:3000/bids?auctionId=${auctionId}`);
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        bids = await response.json();
-        if (bids.length > 0) {
-            lastBid = bids.at(-1).price;
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            bids = await response.json();
+            if (bids.length > 0) {
+                lastBid = bids.at(-1).price;
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 </script>

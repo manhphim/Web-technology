@@ -17,6 +17,7 @@
     let form;
 
     const handleSubmit = async () => {
+        checkEmail = emailValidation(email.trim());
         checkPassword = passwordValidation(password.trim());
         checkPassword2 = password.trim() === password2.trim();
         if (checkEmail && checkPassword && checkPassword2) {
@@ -45,6 +46,14 @@
             router.redirect("/register");
             alert('Something went wrong!');
         }
+    }
+
+    function emailValidation(input) {
+        if (!(input.endsWith('.com') || input.endsWith('.nl'))) {
+           emailMessage = 'Email should be ended with ".nl" or ".com"';
+           return false;
+        }
+        return true;
     }
 
     function passwordValidation(input) {
@@ -82,7 +91,7 @@
             <div class="form__control">
                 <input bind:this = {emailContainer} type="email" placeholder="Enter email" name="email" id="email" bind:value={email} required>
                 {#if !checkEmail}
-                    <small>Email must end with ".nl" or ".com"</small>
+                    <small>{emailMessage}</small>
                 {/if}
             </div>
 			<div class="form__control">

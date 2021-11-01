@@ -35,7 +35,7 @@
 
     function handleErrors(response) {
         if (!response.ok) {
-            alert('Something went wrong!');
+            alert('Cannot get the list of auctions');
             throw new Error(response.statusText);
         }
     }
