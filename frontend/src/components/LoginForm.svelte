@@ -35,7 +35,6 @@
             const data=await response.json();
             $tokenStore.token =data.token;
             $userStore = data.user;
-            console.log($userStore);
             return await response;
         } catch (e) {
             console.log(e);

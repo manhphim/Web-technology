@@ -178,8 +178,8 @@ const auctions = [
         item : 'Bronze Bust',
         image: 'http://localhost:3000/images/bronze-bust.jpg',
         category : 'crafts',
-        startTime : '2022-01-10 16:00',
-        endTime : '2022-02-12 12:00',
+        startTime : '2021-09-13 16:00',
+        endTime : '2021-10-08 12:00',
         status : 'Closed',
         details : 'A vintage limited edition bronze bust by Gerson Frank',
         startPrice : '500'

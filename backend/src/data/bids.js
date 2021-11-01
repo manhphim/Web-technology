@@ -8,7 +8,7 @@ const bids = [
     },
     {
         id: 2,
-        username: 'minh',
+        username: 'username3',
         auctionId: 2,
         time : '2021-10-15 19:02:32',
         price : '1700'
@@ -22,7 +22,7 @@ const bids = [
     },
     {
         id: 4,
-        username: 'minh',
+        username: 'username3',
         auctionId: 1,
         time : '2021-10-12 21:10:32',
         price : '30500'
@@ -54,6 +54,20 @@ const bids = [
         auctionId: 3,
         time : '2021-10-14 15:16:45',
         price : '700'
+    },
+    {
+        id: 9,
+        username: 'minh',
+        auctionId: 16,
+        time : '2021-09-13 16:16:45',
+        price : '700'
+    },
+    {
+        id: 10,
+        username: 'username3',
+        auctionId: 16,
+        time : '2021-09-13 17:16:45',
+        price : '710'
     }
 ]
 

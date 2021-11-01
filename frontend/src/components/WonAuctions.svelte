@@ -4,40 +4,43 @@
     import userStore from "../stores/user";
     import {onMount} from "svelte";
 
-    let listOfUserBids = [];
-    let listOfAuctionBids = [];
-    let wonBids = [];
-    export let params;
-
-    let auctionId = params.id
-
+    let wonAuctions = [];
     onMount(async () => {
-        await getAllBidsOfUser();
-        await getAllBidsOfAuction();
+        await getWonAuctions();
     })
 
-    listOfUserBids.forEach((bid) => {
-        if (listOfAuctionBids[listOfAuctionBids.length-1].username === bid.username) {
-            wonBids.push(bid);
-        }
-    })
+    async function getWonAuctions() {
+        // fetch the auctions that have the "Closed" status
+        let closedAuctions = await getClosedAuctions();
+        // fetch all the bids
+        let bids = await getAllBids();
+        // take only the bids placed by the logged-in-user
+        bids = bids.filter(bid => bid.username === $userStore.username);
+        // get a list of the closed auctions' ids
+        let closedAuctionsIds = closedAuctions.map(auction => auction.id);
+        // get a list of the auctions that have bids placed
+        let auctionsIds = bids.map(bid => bid.auctionId);
+        // get the auctions' ids of the closed ones that have bids placed
+        let result = closedAuctionsIds.filter(id => auctionsIds.includes(id));
 
-    console.log(wonBids);
-
-    async function getAllBidsOfUser() {
-        const response = await fetch(`http://localhost:3000/bids?username=${$userStore.username}`);
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        listOfUserBids = await response.json();
+        // get the auction objects that meet the criteria above
+        wonAuctions = closedAuctions.filter(auction => result.includes(auction.id));
     }
 
-    async function getAllBidsOfAuction() {
-        const response = await fetch((`http://localhost:3000/bids?auctionId=${auctionId}`))
+    async function getAllBids() {
+        const response = await fetch(("http://localhost:3000/bids"))
         if (!response.ok) {
             throw new Error(response.statusText);
         }
-        listOfAuctionBids = await response.json();
+        return await response.json();
+    }
+
+    async function getClosedAuctions() {
+        const response = await fetch("http://localhost:3000/auctions?status=Closed");
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
     }
 </script>
 
@@ -50,7 +53,22 @@
     </div>
 
     <table class="table table-borderless col-sm-9">
-
+        <thead class="text-center">
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Image</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each wonAuctions as auction (auction.id)}
+                <tr>
+                    <td>{auction.item}</td>
+                    <td><image src={auction.image} alt="image" style="width:50px; height:50px;"></image></td>
+                    <td>{auction.category}</td>
+                </tr>
+            {/each}
+        </tbody>
     </table>
 </div>
 </body>

@@ -38,7 +38,6 @@
             let item = auction.item.toLowerCase();
             return item.includes($text.toLowerCase())
         });
-        getAuctions();
     }
 
     let selectedStatus = '';
