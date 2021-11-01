@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { StatusCodes } = require('http-status-codes');
+const isLoggedIn = require('../middleware/is-logged-in');
 
 let bids = require("../data/bids");
 router.get('', (req, res) => {
@@ -45,25 +46,6 @@ router.post('', (req, res) => {
 
 });
 
-router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const bidUpdated = req.body;
-
-
-    if(bids[id-1] != null) {
-        for (let key in bidUpdated) {
-            bids[id-1][key] = bidUpdated[key];
-        }
-        res
-            .status(StatusCodes.OK)
-            .send('Bid updated!');
-    } else {
-        res
-            .status(StatusCodes.NOT_FOUND)
-            .send(`Bid with id ${id} not found!`);
-    }
-});
-
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
     const bid = bids.find((bid) => bid.id == id);
@@ -78,6 +60,5 @@ router.delete('/:id', (req, res) => {
             .send(`Bid with id ${id} not found!`);
     }
 });
+
 module.exports = router;
-
-
